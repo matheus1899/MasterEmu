@@ -1,0 +1,256 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@drawable/bg_ms_cover_landscape"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".TitlescreenActivity">
+    <TextView
+        android:id="@+id/txtView_Wait"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:gravity="center"
+        android:text="@string/wait_str"
+        android:textColor="#17569B"
+        android:textSize="25sp"
+        android:textStyle="bold"
+        android:visibility="gone"/>
+
+    <ImageView
+        android:id="@+id/logo_titlescreen_activity"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
+        android:src="@drawable/ic_launcher"
+        app:layout_constraintBottom_toTopOf="@+id/imgBtn_Options"
+        app:layout_constraintEnd_toStartOf="@+id/v_guideline"
+        app:layout_constraintTop_toTopOf="@+id/h_guideline2" />
+    <TextView
+        android:id="@+id/txtView_appname"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:text="@string/app_name"
+        android:textColor="#17569B"
+        android:textSize="34sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="@id/logo_titlescreen_activity"
+        app:layout_constraintStart_toEndOf="@+id/v_guideline"
+        app:layout_constraintTop_toTopOf="@id/logo_titlescreen_activity" />
+    <ImageButton
+        android:id="@+id/imgBtn_LoadROM"
+        android:layout_width="90dp"
+        android:layout_height="90dp"
+        android:layout_marginTop="16dp"
+        android:background="@drawable/bg_button_titlescreen"
+        android:src="@drawable/ic_load_rom"
+        app:layout_constraintBottom_toTopOf="@id/txtView_LoadROM"
+        app:layout_constraintEnd_toStartOf="@+id/imgBtn_Options"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/logo_titlescreen_activity" />
+    <ImageButton
+        android:id="@+id/imgBtn_Options"
+        android:layout_width="90dp"
+        android:layout_height="90dp"
+        android:layout_marginTop="16dp"
+        android:background="@drawable/bg_button_titlescreen"
+        android:src="@drawable/ic_options"
+        app:layout_constraintBottom_toTopOf="@id/txtView_Options"
+        app:layout_constraintEnd_toStartOf="@+id/imgBtn_Help"
+        app:layout_constraintStart_toEndOf="@+id/imgBtn_LoadROM"
+        app:layout_constraintTop_toBottomOf="@id/logo_titlescreen_activity" />
+    <ImageButton
+        android:id="@+id/imgBtn_Help"
+        android:layout_width="90dp"
+        android:layout_height="90dp"
+        android:layout_marginTop="16dp"
+        android:background="@drawable/bg_button_titlescreen"
+        android:src="@drawable/ic_help"
+        app:layout_constraintBottom_toTopOf="@id/txtView_Help"
+        app:layout_constraintEnd_toStartOf="@id/imgBtn_Credits"
+        app:layout_constraintStart_toEndOf="@+id/imgBtn_Options"
+        app:layout_constraintTop_toBottomOf="@id/logo_titlescreen_activity" />
+    <ImageButton
+        android:id="@+id/imgBtn_Credits"
+        android:src="@drawable/ic_credits"
+        android:layout_width="90dp"
+        android:layout_height="90dp"
+        android:layout_marginTop="16dp"
+        android:background="@drawable/bg_button_titlescreen"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/txtView_Credits"
+        app:layout_constraintStart_toEndOf="@id/imgBtn_Help"
+        app:layout_constraintTop_toBottomOf="@id/logo_titlescreen_activity"/>
+    <TextView
+        android:id="@+id/txtView_LoadROM"
+        android:text="load rom"
+        android:maxLines="2"
+        android:textColor="#17569B"
+        android:textStyle="bold"
+        android:textSize="18sp"
+        android:textAlignment="center"
+        android:gravity="center"
+        android:textAllCaps="true"
+        android:layout_width="110dp"
+        android:layout_height="50dp"
+        app:layout_constraintEnd_toEndOf="@+id/imgBtn_LoadROM"
+        app:layout_constraintStart_toStartOf="@+id/imgBtn_LoadROM"
+        app:layout_constraintTop_toBottomOf="@+id/imgBtn_LoadROM"
+        app:layout_constraintBottom_toTopOf="@id/imgBtn_Extras"/>
+    <TextView
+        android:id="@+id/txtView_Options"
+        android:layout_width="110dp"
+        android:layout_height="50dp"
+        android:gravity="center"
+        android:maxLines="2"
+        android:text="options"
+        android:textAlignment="center"
+        android:textAllCaps="true"
+        android:textColor="#17569B"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="@+id/imgBtn_Options"
+        app:layout_constraintStart_toStartOf="@+id/imgBtn_Options"
+        app:layout_constraintTop_toBottomOf="@+id/imgBtn_Options"
+        app:layout_constraintBottom_toTopOf="@id/imgBtn_ManageStates"/>
+    <TextView
+        android:id="@+id/txtView_Help"
+        android:text="help"
+        android:maxLines="2"
+        android:textColor="#17569B"
+        android:textStyle="bold"
+        android:textSize="18sp"
+        android:textAlignment="center"
+        android:gravity="center"
+        android:textAllCaps="true"
+        android:layout_width="110dp"
+        android:layout_height="50dp"
+        app:layout_constraintEnd_toEndOf="@+id/imgBtn_Help"
+        app:layout_constraintStart_toStartOf="@+id/imgBtn_Help"
+        app:layout_constraintTop_toBottomOf="@+id/imgBtn_Help"
+        app:layout_constraintBottom_toTopOf="@id/imgBtn_Exit"/>
+    <TextView
+        android:id="@+id/txtView_Credits"
+        android:layout_width="110dp"
+        android:layout_height="50dp"
+        android:gravity="center"
+        android:maxLines="2"
+        android:text="credits"
+        android:textAlignment="center"
+        android:textAllCaps="true"
+        android:textColor="#17569B"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="@+id/imgBtn_Credits"
+        app:layout_constraintStart_toStartOf="@+id/imgBtn_Credits"
+        app:layout_constraintTop_toBottomOf="@+id/imgBtn_Credits"
+        app:layout_constraintBottom_toTopOf="@id/imgBtn_Exit"/>
+
+    <ImageButton
+        android:id="@+id/imgBtn_Extras"
+        android:layout_width="90dp"
+        android:layout_height="90dp"
+        android:background="@drawable/bg_button_titlescreen"
+        android:src="@drawable/ic_extras"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/imgBtn_ManageStates"
+        app:layout_constraintTop_toBottomOf="@+id/txtView_LoadROM"
+        app:layout_constraintBottom_toTopOf="@id/txtView_Extras"/>
+    <ImageButton
+        android:id="@+id/imgBtn_ManageStates"
+        android:layout_width="90dp"
+        android:layout_height="90dp"
+        android:background="@drawable/bg_button_titlescreen"
+        android:src="@drawable/ic_manage_states"
+        app:layout_constraintStart_toEndOf="@id/imgBtn_Extras"
+        app:layout_constraintEnd_toStartOf="@id/imgBtn_Exit"
+        app:layout_constraintTop_toBottomOf="@+id/txtView_Options"
+        app:layout_constraintBottom_toTopOf="@id/txtView_ManageStates" />
+    <ImageButton
+        android:id="@+id/imgBtn_Exit"
+        android:layout_width="90dp"
+        android:layout_height="90dp"
+        android:background="@drawable/bg_button_titlescreen"
+        android:src="@drawable/ic_exit"
+        app:layout_constraintStart_toEndOf="@id/imgBtn_ManageStates"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/txtView_Help"
+        app:layout_constraintBottom_toTopOf="@id/txtView_Exit" />
+
+    <TextView
+        android:id="@+id/txtView_Extras"
+        android:layout_width="110dp"
+        android:layout_height="50dp"
+        android:gravity="center"
+        android:maxLines="2"
+        android:text="extras"
+        android:textAlignment="center"
+        android:textAllCaps="true"
+        android:textColor="#17569B"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toTopOf="@+id/h_guideline"
+        app:layout_constraintEnd_toEndOf="@+id/imgBtn_Extras"
+        app:layout_constraintStart_toStartOf="@+id/imgBtn_Extras"
+        app:layout_constraintTop_toBottomOf="@+id/imgBtn_Extras" />
+
+    <TextView
+        android:id="@+id/txtView_ManageStates"
+        android:layout_width="110dp"
+        android:layout_height="50dp"
+        android:gravity="center"
+        android:maxLines="2"
+        android:text="manage states"
+        android:textAlignment="center"
+        android:textAllCaps="true"
+        android:textColor="#17569B"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toTopOf="@+id/h_guideline"
+        app:layout_constraintEnd_toEndOf="@+id/imgBtn_ManageStates"
+        app:layout_constraintStart_toStartOf="@+id/imgBtn_ManageStates"
+        app:layout_constraintTop_toBottomOf="@+id/imgBtn_ManageStates" />
+
+    <TextView
+        android:id="@+id/txtView_Exit"
+        android:layout_width="110dp"
+        android:layout_height="50dp"
+        android:gravity="center"
+        android:maxLines="2"
+        android:text="exit"
+        android:textAlignment="center"
+        android:textAllCaps="true"
+        android:textColor="#17569B"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toTopOf="@+id/h_guideline"
+        app:layout_constraintEnd_toEndOf="@+id/imgBtn_Exit"
+        app:layout_constraintStart_toStartOf="@+id/imgBtn_Exit"
+        app:layout_constraintTop_toBottomOf="@+id/imgBtn_Exit" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/h_guideline"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.95" />
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/h_guideline2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.05" />
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/v_guideline"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.40" />
+</androidx.constraintlayout.widget.ConstraintLayout>
