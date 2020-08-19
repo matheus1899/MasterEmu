@@ -10,4 +10,11 @@
     <color name="code_highlighted_enabled_colour">#c0c0c0</color>
     <color name="code_highlighted_disabled_colour">#808080</color>
     <color name="codes_dialogue_colour">#5dccff</color>
+
+    <color name="Primary">#17569B</color>
+    <color name="PrimaryLight">#5682CC</color>
+    <color name="PrimaryDark">#15467E</color>
+    <color name="ColorHighlight">@color/Primary</color>
+    <color name="ColorUnhighlight">#A0A0A0</color>
+    <color name="Focused">#505050</color>
 </resources>

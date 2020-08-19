@@ -5,65 +5,94 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/bg_ms_cover_portrait"
+    android:background="@drawable/bg_ms_cover_landscape"
     android:fillViewport="true">
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/options_h_guideline3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layout_constraintGuide_percent="0.05" />
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/options_h_guideline4"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layout_constraintGuide_percent="0.95" />
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/options_v_guideline4"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_percent="0.15" />
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/options_v_guideline5"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_percent="0.85" />
 
         <androidx.constraintlayout.widget.ConstraintLayout
-            android:elevation="4dp"
-            android:layout_marginHorizontal="16dp"
-            android:layout_width="match_parent"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:background="@drawable/teste_bg_highlight"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
+            android:elevation="4dp"
+            app:layout_constraintBottom_toBottomOf="@id/options_h_guideline4"
+            app:layout_constraintEnd_toEndOf="@id/options_v_guideline5"
+            app:layout_constraintStart_toStartOf="@id/options_v_guideline4"
+            app:layout_constraintTop_toTopOf="@id/options_h_guideline3">
 
             <TextView
                 android:id="@+id/options_txt_title"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginVertical="16dp"
                 android:text="@string/options_header"
                 android:textColor="#17569B"
                 android:textSize="22sp"
                 android:textStyle="bold"
+                android:gravity="center_horizontal"
                 app:layout_constraintEnd_toEndOf="@id/options_v_guideline2"
                 app:layout_constraintStart_toStartOf="@id/options_v_guideline1"
                 app:layout_constraintTop_toTopOf="@id/options_h_guideline1" />
+
             <androidx.constraintlayout.widget.Guideline
                 android:id="@+id/options_v_guideline1"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
-                app:layout_constraintGuide_begin="@dimen/default_margin_portrait" />
+                app:layout_constraintGuide_begin="@dimen/default_margin_landscape" />
+
             <androidx.constraintlayout.widget.Guideline
                 android:id="@+id/options_v_guideline2"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
-                app:layout_constraintGuide_end="@dimen/default_margin_portrait" />
+                app:layout_constraintGuide_end="@dimen/default_margin_landscape" />
+
             <androidx.constraintlayout.widget.Guideline
                 android:id="@+id/options_v_guideline3"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
                 app:layout_constraintGuide_percent="0.8" />
+
             <androidx.constraintlayout.widget.Guideline
                 android:id="@+id/options_h_guideline1"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
-                app:layout_constraintGuide_percent="0.05" />
+                app:layout_constraintGuide_percent="0" />
+
             <androidx.constraintlayout.widget.Guideline
                 android:id="@+id/options_h_guideline2"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
-                app:layout_constraintGuide_percent="0.95" />
+                app:layout_constraintGuide_percent="1" />
 
             <TextView
                 android:id="@+id/options_txt_lock_screen"
@@ -151,6 +180,7 @@
                 app:layout_constraintEnd_toStartOf="@+id/options_v_guideline3"
                 app:layout_constraintStart_toStartOf="@+id/options_v_guideline1"
                 app:layout_constraintTop_toBottomOf="@+id/options_txt_screen_stretching" />
+
             <CheckBox
                 android:id="@+id/options_cb_lock_screen"
                 android:layout_width="wrap_content"
@@ -158,6 +188,7 @@
                 app:layout_constraintBottom_toBottomOf="@+id/options_txt_lock_screen"
                 app:layout_constraintEnd_toStartOf="@id/options_v_guideline2"
                 app:layout_constraintTop_toTopOf="@+id/options_txt_lock_screen" />
+
             <CheckBox
                 android:id="@+id/options_cb_sound"
                 android:layout_width="wrap_content"
@@ -165,6 +196,7 @@
                 app:layout_constraintBottom_toBottomOf="@+id/options_txt_sound"
                 app:layout_constraintEnd_toStartOf="@id/options_v_guideline2"
                 app:layout_constraintTop_toTopOf="@+id/options_txt_sound" />
+
             <CheckBox
                 android:id="@+id/options_cb_larger_controllers"
                 android:layout_width="wrap_content"
@@ -172,6 +204,7 @@
                 app:layout_constraintBottom_toBottomOf="@+id/options_txt_larger_controllers"
                 app:layout_constraintEnd_toStartOf="@id/options_v_guideline2"
                 app:layout_constraintTop_toTopOf="@+id/options_txt_larger_controllers" />
+
             <CheckBox
                 android:id="@+id/options_cb_touch_button_overlay"
                 android:layout_width="wrap_content"
@@ -179,6 +212,7 @@
                 app:layout_constraintBottom_toBottomOf="@+id/options_txt_touch_button_overlay"
                 app:layout_constraintEnd_toStartOf="@id/options_v_guideline2"
                 app:layout_constraintTop_toTopOf="@+id/options_txt_touch_button_overlay" />
+
             <CheckBox
                 android:id="@+id/options_cb_japanese_mode"
                 android:layout_width="wrap_content"
@@ -186,6 +220,7 @@
                 app:layout_constraintBottom_toBottomOf="@+id/options_txt_japanese_mode"
                 app:layout_constraintEnd_toStartOf="@id/options_v_guideline2"
                 app:layout_constraintTop_toTopOf="@+id/options_txt_japanese_mode" />
+
             <CheckBox
                 android:id="@+id/options_cb_screen_stretching"
                 android:layout_width="wrap_content"
@@ -193,6 +228,7 @@
                 app:layout_constraintBottom_toBottomOf="@+id/options_txt_screen_stretching"
                 app:layout_constraintEnd_toStartOf="@id/options_v_guideline2"
                 app:layout_constraintTop_toTopOf="@+id/options_txt_screen_stretching" />
+
             <CheckBox
                 android:id="@+id/options_cb_enable_gg_action_replay"
                 android:layout_width="wrap_content"
@@ -200,15 +236,15 @@
                 app:layout_constraintBottom_toBottomOf="@+id/options_txt_enable_gg_action_replay"
                 app:layout_constraintEnd_toStartOf="@id/options_v_guideline2"
                 app:layout_constraintTop_toTopOf="@+id/options_txt_enable_gg_action_replay" />
+
             <Button
                 android:id="@+id/options_btn_apply"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                android:paddingHorizontal="16dp"
-                android:text="apply"
+                android:layout_marginVertical="16dp"
                 android:background="@drawable/teste_bg_highlight"
                 android:backgroundTint="@color/PrimaryDark"
+                android:text="apply"
                 android:textColor="@android:color/white"
                 android:textStyle="bold"
                 app:layout_constraintBottom_toTopOf="@id/options_h_guideline2"

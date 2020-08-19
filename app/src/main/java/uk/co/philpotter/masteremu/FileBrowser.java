@@ -19,6 +19,7 @@ import android.widget.BaseAdapter;
 import android.content.Context;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.view.LayoutInflater;
 import android.widget.LinearLayout;
@@ -36,7 +37,6 @@ import android.util.Log;
 
 import java.util.Calendar;
 import java.util.Collections;
-import android.graphics.drawable.Drawable;
 import android.widget.Toast;
 import java.io.RandomAccessFile;
 import java.io.BufferedWriter;
@@ -79,17 +79,14 @@ public class FileBrowser extends Activity {
     private StorageClickListener sc;
     private PathClickListener pc;
     private String actionType;
+    private EmuGridView gridView;
     private volatile boolean romClicked;
     private boolean firstPopulation;
-
-    // variable to reference EmuGridView instance
-    private EmuGridView g;
 
     /**
      * This method sets the screen orientation when locked.
      */
-    @Override
-    protected void onStart() {
+    @Override protected void onStart() {
         super.onStart();
         if (OptionStore.orientation_lock) {
             if (OptionStore.orientation.equals("portrait")) {
@@ -101,13 +98,12 @@ public class FileBrowser extends Activity {
             setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_SENSOR);
         }
     }
-
     /**
      * This method creates the layout (header + file grid).
      */
     @SuppressWarnings("deprecation")
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    @Override protected void onCreate(Bundle savedInstanceState)
+    {
         super.onCreate(savedInstanceState);
         firstPopulation = true;
         romClicked = false;
@@ -126,52 +122,18 @@ public class FileBrowser extends Activity {
             searchArea.setVisibility(View.VISIBLE);
             EditText searchText = (EditText)findViewById(R.id.search_text);
             searchText.addTextChangedListener(new TextWatcher() {
-                @Override
-                public void afterTextChanged(Editable s) {
-                    populateFileGrid(currentPath);
-                }
-
-                @Override
-                public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
-
-                @Override
-                public void onTextChanged(CharSequence s, int start, int count, int after) {}
+                @Override public void afterTextChanged(Editable s) { populateFileGrid(currentPath);}
+                @Override public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
+                @Override public void onTextChanged(CharSequence s, int start, int count, int after) {}
             });
         }
         defaultFilePath = getFilesDir() + "/default_file";
         thisDirPath = getFilesDir() + "/this_dir";
-        ControllerTextView internal = (ControllerTextView)findViewById(R.id.internal_view);
-        ControllerTextView external = (ControllerTextView)findViewById(R.id.external_view);
-        g = (EmuGridView)findViewById(R.id.filegrid);
+        ControllerTextView internal = findViewById(R.id.internal_view);
+        ControllerTextView external = findViewById(R.id.external_view);
+        gridView = findViewById(R.id.filegrid);
         pc = new PathClickListener();
-        g.setOnItemClickListener(pc);
-
-        // Setup button drawables
-        Drawable light = null;
-        Drawable dark = null;
-        int lightText, darkText;
-        if (android.os.Build.VERSION.SDK_INT < Build.VERSION_CODES.M) {
-            lightText = getResources().getColor(R.color.text_colour);
-            darkText = getResources().getColor(R.color.text_greyed_out);
-        } else {
-            lightText = getResources().getColor(R.color.text_colour, null);
-            darkText = getResources().getColor(R.color.text_greyed_out, null);
-        }
-        if (android.os.Build.VERSION.SDK_INT < android.os.Build.VERSION_CODES.LOLLIPOP_MR1) {
-            light = getResources().getDrawable(R.drawable.view_border);
-            dark = getResources().getDrawable(R.drawable.view_greyed_out_border);
-        } else {
-            light = getResources().getDrawable(R.drawable.view_border, null);
-            dark = getResources().getDrawable(R.drawable.view_greyed_out_border, null);
-        }
-        internal.setActiveDrawable(light);
-        internal.setInactiveDrawable(dark);
-        internal.setHighlightedTextColour(lightText);
-        internal.setUnhighlightedTextColour(darkText);
-        external.setActiveDrawable(light);
-        external.setInactiveDrawable(dark);
-        external.setHighlightedTextColour(lightText);
-        external.setUnhighlightedTextColour(darkText);
+        gridView.setOnItemClickListener(pc);
         sc = new StorageClickListener();
         internal.setOnClickListener(sc);
         external.setOnClickListener(sc);
@@ -266,15 +228,13 @@ public class FileBrowser extends Activity {
             populateFileGrid(pathToLoad);
         }
     }
-
     /**
      * This callback runs after a permissions request.
      * @param requestCode
      * @param permissions
      * @param grantResults
      */
-    @Override
-    public void onRequestPermissionsResult (int requestCode, String[] permissions, int[] grantResults) {
+    @Override public void onRequestPermissionsResult (int requestCode, String[] permissions, int[] grantResults) {
         switch (requestCode) {
             case FILEBROWSER_READ_STORAGE_REQUEST:
                 if (grantResults.length > 0
@@ -298,13 +258,11 @@ public class FileBrowser extends Activity {
                 break;
         }
     }
-
     /**
      * This method saves the path and allows us to handle screen
      * reorientations properly.
      */
-    @Override
-    public void onSaveInstanceState(Bundle savedInstanceState) {
+    @Override public void onSaveInstanceState(Bundle savedInstanceState) {
         // Save current path
         savedInstanceState.putString("CURRENT_PATH", currentPath);
         if (currentPath.contains(internalStorageRoot))
@@ -312,7 +270,6 @@ public class FileBrowser extends Activity {
         else
             savedInstanceState.putString("STORAGE_TYPE", "EXTERNAL");
     }
-
     /**
      * This method finds all files and folders in the supplied path
      * and populates the grid with them.
@@ -479,9 +436,9 @@ public class FileBrowser extends Activity {
             }
         }
 
-        g = (EmuGridView)findViewById(R.id.filegrid);
-        g.setAdapter(new FilesystemAdapter(this, tempList.toArray()));
-        g.post(new Runnable() {
+        gridView = (EmuGridView)findViewById(R.id.filegrid);
+        gridView.setAdapter(new FileSystemAdapter(this, tempList.toArray()));
+        gridView.post(new Runnable() {
             /**
              * This allows the heights to be set after the layout phase has
              * completed, thus preventing errors spewing in logcat.
@@ -489,10 +446,10 @@ public class FileBrowser extends Activity {
             @Override
             public void run() {
                 // get number of columns
-                int itemsInRow = g.getNumColumns();
+                int itemsInRow = gridView.getNumColumns();
 
                 // get total number of views
-                int totalItems = g.getChildCount();
+                int totalItems = gridView.getChildCount();
 
                 // calculate number of rows
                 int numOfRows = totalItems / itemsInRow;
@@ -506,9 +463,9 @@ public class FileBrowser extends Activity {
 
                     for (int item = row * itemsInRow; item < (row * itemsInRow) + itemsInRow; ++item) {
 
-                        if (g.getChildAt(item) != null) {
-                            rowViews.add(g.getChildAt(item));
-                            int currentHeight = g.getChildAt(item).getMeasuredHeight();
+                        if (gridView.getChildAt(item) != null) {
+                            rowViews.add(gridView.getChildAt(item));
+                            int currentHeight = gridView.getChildAt(item).getMeasuredHeight();
                             highest = (currentHeight > highest) ? currentHeight : highest;
                         }
                     }
@@ -518,26 +475,24 @@ public class FileBrowser extends Activity {
                     }
                 }
 
-                g.invalidate();
+                gridView.invalidate();
             }
         });
         if (firstPopulation) {
-            g.requestFocus();
+            gridView.requestFocus();
             firstPopulation = false;
         }
     }
-
     /**
      * This class allows us to present a list of File objects as the
      * backing store of a GridView.
      */
-    protected class FilesystemAdapter extends BaseAdapter {
-
+    protected class FileSystemAdapter extends BaseAdapter {
         private Object[] filesAndFolders;
         private Context context;
         private LayoutInflater inflater;
 
-        public FilesystemAdapter(Context c, Object[] filesAndFolders) {
+        public FileSystemAdapter(Context c, Object[] filesAndFolders) {
             this.context = c;
             this.filesAndFolders = filesAndFolders;
             this.inflater = LayoutInflater.from(c);
@@ -550,7 +505,6 @@ public class FileBrowser extends Activity {
 
         @Override
         public View getView(int position, View convertView, ViewGroup parent) {
-
             View v = null;
             if (position < 0 || position > getCount() - 1)
                 return v;
@@ -574,14 +528,15 @@ public class FileBrowser extends Activity {
                     v = inflater.inflate(R.layout.file_icon, parent, false);
                 }
             }
-
-            TextView path = (TextView) ((ViewGroup) v).getChildAt(1);
+            ImageView img = (ImageView)((ViewGroup)v).getChildAt(0);
+            TextView path = (TextView)((ViewGroup) v).getChildAt(1);
             if (((File)filesAndFolders[position]).getName().endsWith("..") ||
                 ((EmuFile)filesAndFolders[position]).isParent()) {
+                img.setImageResource(R.drawable.ic_arrow_back);
                 path.setText("..");
             } else if (((File) filesAndFolders[position]).getPath().equals(defaultFilePath)
                        && actionType.equals("load_rom")) {
-                path.setText("Set as Default Dir");
+                path.setText("SET DEFAULT FOLDER");
             } else if (((File) filesAndFolders[position]).getPath().equals(thisDirPath)
                     && actionType.equals("export_states")) {
                 path.setText("Export Here");
@@ -607,7 +562,6 @@ public class FileBrowser extends Activity {
         }
 
     }
-
     /**
      * This class allows us to listen for clicks on items in the
      * GridView.
@@ -692,7 +646,6 @@ public class FileBrowser extends Activity {
             }
         }
     }
-
     private void exportMethod() {
         // create dialogue
         AlertDialog exportMenu = new AlertDialog.Builder(FileBrowser.this).create();
@@ -704,13 +657,11 @@ public class FileBrowser extends Activity {
         exportMenu.setButton(DialogInterface.BUTTON_NEGATIVE, "NO", el);
         exportMenu.show();
     }
-
     /**
      * This class allows us to listen for clicks on the internal/external buttons.
      */
     private class StorageClickListener implements View.OnClickListener {
-        @Override
-        public void onClick(View v) {
+        @Override public void onClick(View v) {
             FileBrowser f = FileBrowser.this;
             ControllerTextView t = (ControllerTextView)v;
             String buttonText = t.getText().toString();
@@ -733,13 +684,11 @@ public class FileBrowser extends Activity {
             }
         }
     }
-
     /**
      * This method allows us to catch controller events we are interested in - in this case
      * the shoulder buttons - to help us switch between internal and external storage.
      */
-    @Override
-    public boolean dispatchKeyEvent(KeyEvent event) {
+    @Override public boolean dispatchKeyEvent(KeyEvent event) {
         // Fetch the EmuGridView object, and from it the StorageClickListener, so we can
         // redirect requests there and utilise code sharing.
         boolean returnVal = false;
@@ -774,10 +723,10 @@ public class FileBrowser extends Activity {
                 returnVal = true;
                 finish();
             } else if (event.getKeyCode() == KeyEvent.KEYCODE_BUTTON_A) {
-                g = (EmuGridView)findViewById(R.id.filegrid);
-                int position = g.getSelectedItemPosition();
+                gridView = (EmuGridView)findViewById(R.id.filegrid);
+                int position = gridView.getSelectedItemPosition();
                 if (position != AdapterView.INVALID_POSITION) {
-                    pc.onItemClick(g, null, position, 0L);
+                    pc.onItemClick(gridView, null, position, 0L);
                 }
                 returnVal = true;
             }
@@ -788,7 +737,6 @@ public class FileBrowser extends Activity {
 
         return super.dispatchKeyEvent(event);
     }
-
     /**
      * This method sets the default path.
      */
@@ -875,7 +823,6 @@ public class FileBrowser extends Activity {
             status.show();
         }
     }
-
     /**
      * This shows a message.
      * @param message
@@ -884,7 +831,6 @@ public class FileBrowser extends Activity {
         Toast messageToast = Toast.makeText(this, message, Toast.LENGTH_SHORT);
         messageToast.show();
     }
-
     /**
      * This is the listener which handles importing of states.
      */
@@ -913,7 +859,6 @@ public class FileBrowser extends Activity {
             }
         }
     }
-
     /**
      * This is the listener which handles exporting of states.
      */

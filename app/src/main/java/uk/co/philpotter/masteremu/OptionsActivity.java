@@ -11,6 +11,7 @@ import android.os.Bundle;
 import android.view.KeyEvent;
 import android.view.MotionEvent;
 import android.view.View;
+import android.widget.Button;
 import android.widget.CheckBox;
 import android.content.res.Configuration;
 import java.io.File;
@@ -23,33 +24,27 @@ import android.widget.Toast;
 import android.content.pm.ActivityInfo;
 import android.view.InputDevice;
 
-/**
- * This class acts as the options screen of the app.
- */
+//This class acts as the options screen of the app.
 public class OptionsActivity extends Activity {
 
     // define instance variables
-    private ControllerSelection selectionObj;
-    private long timeSinceLastAnaloguePress = 0;
+    //private ControllerSelection selectionObj;
+    //private long timeSinceLastAnaloguePress = 0;
 
-    /**
-     * This method creates the options screen.
-     */
-    @SuppressWarnings("deprecation")
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    //This method creates the options screen.
+    @SuppressWarnings("deprecation") @Override protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.options_activity);
-
         ButtonColourListener bcl = new ButtonColourListener();
-        ControllerTextView options_apply_button = (ControllerTextView)findViewById(R.id.options_apply_button);
-        options_apply_button.setOnTouchListener(bcl);
+        //ControllerTextView options_apply_button = (ControllerTextView)findViewById(R.id.options_apply_button);
+        Button btn_apply = findViewById(R.id.options_btn_apply);
+        btn_apply.setOnTouchListener(bcl);
 
         // Load drawables for apply button
-        Drawable light = null;
-        Drawable dark = null;
-        int lightText, darkText;
-        if (android.os.Build.VERSION.SDK_INT < Build.VERSION_CODES.M) {
+        //Drawable light = null;
+        //Drawable dark = null;
+        //int lightText, darkText;
+        /*if (android.os.Build.VERSION.SDK_INT < Build.VERSION_CODES.M) {
             lightText = getResources().getColor(R.color.text_colour);
             darkText = getResources().getColor(R.color.text_greyed_out);
         } else {
@@ -62,8 +57,8 @@ public class OptionsActivity extends Activity {
         } else {
             dark = getResources().getDrawable(R.drawable.view_greyed_out_border, null);
             light = getResources().getDrawable(R.drawable.view_border, null);
-        }
-        options_apply_button.setActiveDrawable(dark);
+        }*/
+        /*options_apply_button.setActiveDrawable(dark);
         options_apply_button.setInactiveDrawable(light);
         options_apply_button.setHighlightedTextColour(darkText);
         options_apply_button.setUnhighlightedTextColour(lightText);
@@ -80,10 +75,10 @@ public class OptionsActivity extends Activity {
         no_buttons.setActiveDrawable(dark);
         japanese_mode.setActiveDrawable(dark);
         no_stretching.setActiveDrawable(dark);
-        game_genie.setActiveDrawable(dark);
+        game_genie.setActiveDrawable(dark);*/
 
         // Create selection object and add mappings to it.
-        options_apply_button.isOptions();
+        /*options_apply_button.isOptions();
         selectionObj = new ControllerSelection();
         selectionObj.addMapping(orientation_lock);
         selectionObj.addMapping(disable_sound);
@@ -92,52 +87,49 @@ public class OptionsActivity extends Activity {
         selectionObj.addMapping(japanese_mode);
         selectionObj.addMapping(no_stretching);
         selectionObj.addMapping(game_genie);
-        selectionObj.addMapping(options_apply_button);
+        selectionObj.addMapping(options_apply_button);*/
 
         // Set focus
-        View options_title = findViewById(R.id.options_title);
-        options_title.requestFocus();
+        //View options_title = findViewById(R.id.options_title);
+        //options_title.requestFocus();
 
         // Set new MasterEmuMotionListener
-        View options_root = findViewById(R.id.options_root);
-        options_root.setOnGenericMotionListener(new MasterEmuMotionListener());
+        //View options_root = findViewById(R.id.options_root);
+        //options_root.setOnGenericMotionListener(new MasterEmuMotionListener());
     }
-
     /**
      * This method restores the checkbox states amongst other things.
      */
-    @Override
-    protected void onStart() {
+    @Override protected void onStart(){
         super.onStart();
         if (OptionStore.orientation_lock) {
-            CheckBox orientation_lock = (CheckBox)findViewById(R.id.orientation_lock);
+            CheckBox orientation_lock = findViewById(R.id.options_cb_lock_screen);
             orientation_lock.setChecked(true);
         }
         if (OptionStore.disable_sound) {
-            CheckBox disable_sound = (CheckBox)findViewById(R.id.disable_sound);
+            CheckBox disable_sound = findViewById(R.id.options_cb_sound);
             disable_sound.setChecked(true);
         }
         if (OptionStore.larger_buttons) {
-            CheckBox larger_buttons = (CheckBox)findViewById(R.id.larger_buttons);
+            CheckBox larger_buttons = findViewById(R.id.options_cb_larger_controllers);
             larger_buttons.setChecked(true);
         }
         if (OptionStore.no_buttons) {
-            CheckBox no_buttons = (CheckBox)findViewById(R.id.no_buttons);
+            CheckBox no_buttons = findViewById(R.id.options_cb_touch_button_overlay);
             no_buttons.setChecked(true);
         }
         if (OptionStore.japanese_mode) {
-            CheckBox japanese_mode = (CheckBox)findViewById(R.id.japanese_mode);
+            CheckBox japanese_mode = findViewById(R.id.options_cb_japanese_mode);
             japanese_mode.setChecked(true);
         }
         if (OptionStore.no_stretching) {
-            CheckBox no_stretching = (CheckBox)findViewById(R.id.no_stretching);
+            CheckBox no_stretching = findViewById(R.id.options_cb_screen_stretching);
             no_stretching.setChecked(true);
         }
         if (OptionStore.game_genie) {
-            CheckBox game_genie = (CheckBox)findViewById(R.id.game_genie);
+            CheckBox game_genie = findViewById(R.id.options_cb_enable_gg_action_replay);
             game_genie.setChecked(true);
         }
-
         // make sure screen orientation is set here if locked
         if (OptionStore.orientation_lock) {
             if (OptionStore.orientation.equals("portrait")) {
@@ -149,17 +141,16 @@ public class OptionsActivity extends Activity {
             setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_SENSOR);
         }
     }
-
     public void applySettings() {
         // define variables
         StringBuilder settings = new StringBuilder();
-        CheckBox orientation_lock = (CheckBox)findViewById(R.id.orientation_lock);
-        CheckBox disable_sound = (CheckBox)findViewById(R.id.disable_sound);
-        CheckBox larger_buttons = (CheckBox)findViewById(R.id.larger_buttons);
-        CheckBox no_buttons = (CheckBox)findViewById(R.id.no_buttons);
-        CheckBox japanese_mode = (CheckBox)findViewById(R.id.japanese_mode);
-        CheckBox no_stretching = (CheckBox)findViewById(R.id.no_stretching);
-        CheckBox game_genie = (CheckBox)findViewById(R.id.game_genie);
+        CheckBox orientation_lock = findViewById(R.id.options_cb_lock_screen);
+        CheckBox disable_sound = findViewById(R.id.options_cb_sound);
+        CheckBox larger_buttons = findViewById(R.id.options_cb_larger_controllers);
+        CheckBox no_buttons = findViewById(R.id.options_cb_touch_button_overlay);
+        CheckBox japanese_mode = findViewById(R.id.options_cb_japanese_mode);
+        CheckBox no_stretching = findViewById(R.id.options_cb_screen_stretching);
+        CheckBox game_genie = findViewById(R.id.options_cb_enable_gg_action_replay);
         boolean errors = false;
 
         settings.append("orientation_lock=");
@@ -265,13 +256,11 @@ public class OptionsActivity extends Activity {
             finish();
         }
     }
-
     /**
      * This method helps us to detect gamepad events and do the right thing with them.
      */
-    @Override
-    public boolean dispatchKeyEvent(KeyEvent event) {
-        int action, keycode;
+    @Override public boolean dispatchKeyEvent(KeyEvent event) {
+        /*int action, keycode;
         boolean returnVal = false;
         action = event.getAction();
         keycode = event.getKeyCode();
@@ -296,17 +285,16 @@ public class OptionsActivity extends Activity {
 
         if (returnVal)
             return returnVal;
-
+        */
         return super.dispatchKeyEvent(event);
     }
-
     /**
      * This method deals with input from the analogue stick and some d-pads.
      */
     public boolean motionEvent(MotionEvent event) {
         boolean returnVal = true;
 
-        if (event.getActionMasked() == MotionEvent.ACTION_MOVE) {
+        /*if (event.getActionMasked() == MotionEvent.ACTION_MOVE) {
             InputDevice dev = event.getDevice();
             if ((event.getSource() & InputDevice.SOURCE_DPAD) == InputDevice.SOURCE_DPAD) {
                 float y = event.getAxisValue(MotionEvent.AXIS_HAT_Y);
@@ -340,45 +328,37 @@ public class OptionsActivity extends Activity {
                     }
                 }
             }
-        }
+        }*/
 
 
         return returnVal;
     }
-
     /**
      * This inner class allows us to support joysticks with a listener.
      */
     protected class MasterEmuMotionListener implements View.OnGenericMotionListener {
-        @Override
-        public boolean onGenericMotion(View v, MotionEvent event) {
+        @Override public boolean onGenericMotion(View v, MotionEvent event) {
             return OptionsActivity.this.motionEvent(event);
         }
     }
-
     /**
      * This class allows us to animate a button.
      */
     protected class ButtonColourListener implements View.OnTouchListener {
-
         /**
          * This is the actual implementation code.
          */
-        @Override
-        public boolean onTouch(View v, MotionEvent event) {
-
-            ControllerMapped cv = (ControllerMapped) v;
+        @Override public boolean onTouch(View v, MotionEvent event) {
+            //ControllerMapped cv = (ControllerMapped) v;
             if (event.getAction() == MotionEvent.ACTION_DOWN) {
-                cv.unHighlight();
+                //cv.unHighlight();
             } else if (event.getAction() == MotionEvent.ACTION_UP) {
-                cv.highlight();
-
+                //cv.highlight();
                 // This is where we apply the settings
-                if (v.getId() == R.id.options_apply_button) {
+                if (v.getId() == R.id.options_btn_apply) {
                     applySettings();
                 }
             }
-
             return true;
         }
     }
