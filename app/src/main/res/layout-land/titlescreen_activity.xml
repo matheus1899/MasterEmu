@@ -29,7 +29,7 @@
         android:layout_height="wrap_content"
         android:layout_marginEnd="8dp"
         android:src="@drawable/ic_launcher"
-        app:layout_constraintBottom_toTopOf="@+id/imgBtn_Options"
+        app:layout_constraintBottom_toTopOf="@+id/title_imgBtn_Options"
         app:layout_constraintEnd_toStartOf="@+id/v_guideline"
         app:layout_constraintTop_toTopOf="@+id/h_guideline2" />
     <TextView
@@ -45,48 +45,48 @@
         app:layout_constraintStart_toEndOf="@+id/v_guideline"
         app:layout_constraintTop_toTopOf="@id/logo_titlescreen_activity" />
     <ImageButton
-        android:id="@+id/imgBtn_LoadROM"
+        android:id="@+id/title_imgBtn_LoadROM"
         android:layout_width="90dp"
         android:layout_height="90dp"
         android:layout_marginTop="16dp"
-        android:background="@drawable/bg_button_titlescreen"
+        android:background="@drawable/titlescreen_button_states"
         android:src="@drawable/ic_load_rom"
         app:layout_constraintBottom_toTopOf="@id/txtView_LoadROM"
-        app:layout_constraintEnd_toStartOf="@+id/imgBtn_Options"
+        app:layout_constraintEnd_toStartOf="@+id/title_imgBtn_Options"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/logo_titlescreen_activity" />
     <ImageButton
-        android:id="@+id/imgBtn_Options"
+        android:id="@+id/title_imgBtn_Options"
         android:layout_width="90dp"
         android:layout_height="90dp"
         android:layout_marginTop="16dp"
-        android:background="@drawable/bg_button_titlescreen"
+        android:background="@drawable/titlescreen_button_states"
         android:src="@drawable/ic_options"
         app:layout_constraintBottom_toTopOf="@id/txtView_Options"
-        app:layout_constraintEnd_toStartOf="@+id/imgBtn_Help"
-        app:layout_constraintStart_toEndOf="@+id/imgBtn_LoadROM"
+        app:layout_constraintEnd_toStartOf="@+id/title_imgBtn_Help"
+        app:layout_constraintStart_toEndOf="@+id/title_imgBtn_LoadROM"
         app:layout_constraintTop_toBottomOf="@id/logo_titlescreen_activity" />
     <ImageButton
-        android:id="@+id/imgBtn_Help"
+        android:id="@+id/title_imgBtn_Help"
         android:layout_width="90dp"
         android:layout_height="90dp"
         android:layout_marginTop="16dp"
-        android:background="@drawable/bg_button_titlescreen"
+        android:background="@drawable/titlescreen_button_states"
         android:src="@drawable/ic_help"
         app:layout_constraintBottom_toTopOf="@id/txtView_Help"
-        app:layout_constraintEnd_toStartOf="@id/imgBtn_Credits"
-        app:layout_constraintStart_toEndOf="@+id/imgBtn_Options"
+        app:layout_constraintEnd_toStartOf="@id/title_imgBtn_Credits"
+        app:layout_constraintStart_toEndOf="@+id/title_imgBtn_Options"
         app:layout_constraintTop_toBottomOf="@id/logo_titlescreen_activity" />
     <ImageButton
-        android:id="@+id/imgBtn_Credits"
+        android:id="@+id/title_imgBtn_Credits"
         android:src="@drawable/ic_credits"
         android:layout_width="90dp"
         android:layout_height="90dp"
         android:layout_marginTop="16dp"
-        android:background="@drawable/bg_button_titlescreen"
+        android:background="@drawable/titlescreen_button_states"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintBottom_toTopOf="@id/txtView_Credits"
-        app:layout_constraintStart_toEndOf="@id/imgBtn_Help"
+        app:layout_constraintStart_toEndOf="@id/title_imgBtn_Help"
         app:layout_constraintTop_toBottomOf="@id/logo_titlescreen_activity"/>
     <TextView
         android:id="@+id/txtView_LoadROM"
@@ -94,16 +94,16 @@
         android:maxLines="2"
         android:textColor="#17569B"
         android:textStyle="bold"
-        android:textSize="18sp"
+        android:textSize="16sp"
         android:textAlignment="center"
         android:gravity="center"
         android:textAllCaps="true"
         android:layout_width="110dp"
         android:layout_height="50dp"
-        app:layout_constraintEnd_toEndOf="@+id/imgBtn_LoadROM"
-        app:layout_constraintStart_toStartOf="@+id/imgBtn_LoadROM"
-        app:layout_constraintTop_toBottomOf="@+id/imgBtn_LoadROM"
-        app:layout_constraintBottom_toTopOf="@id/imgBtn_Extras"/>
+        app:layout_constraintEnd_toEndOf="@+id/title_imgBtn_LoadROM"
+        app:layout_constraintStart_toStartOf="@+id/title_imgBtn_LoadROM"
+        app:layout_constraintTop_toBottomOf="@+id/title_imgBtn_LoadROM"
+        app:layout_constraintBottom_toTopOf="@id/title_imgBtn_Extras"/>
     <TextView
         android:id="@+id/txtView_Options"
         android:layout_width="110dp"
@@ -114,28 +114,28 @@
         android:textAlignment="center"
         android:textAllCaps="true"
         android:textColor="#17569B"
-        android:textSize="18sp"
+        android:textSize="16sp"
         android:textStyle="bold"
-        app:layout_constraintEnd_toEndOf="@+id/imgBtn_Options"
-        app:layout_constraintStart_toStartOf="@+id/imgBtn_Options"
-        app:layout_constraintTop_toBottomOf="@+id/imgBtn_Options"
-        app:layout_constraintBottom_toTopOf="@id/imgBtn_ManageStates"/>
+        app:layout_constraintEnd_toEndOf="@+id/title_imgBtn_Options"
+        app:layout_constraintStart_toStartOf="@+id/title_imgBtn_Options"
+        app:layout_constraintTop_toBottomOf="@+id/title_imgBtn_Options"
+        app:layout_constraintBottom_toTopOf="@id/title_imgBtn_ManageStates"/>
     <TextView
         android:id="@+id/txtView_Help"
         android:text="help"
         android:maxLines="2"
         android:textColor="#17569B"
         android:textStyle="bold"
-        android:textSize="18sp"
+        android:textSize="16sp"
         android:textAlignment="center"
         android:gravity="center"
         android:textAllCaps="true"
         android:layout_width="110dp"
         android:layout_height="50dp"
-        app:layout_constraintEnd_toEndOf="@+id/imgBtn_Help"
-        app:layout_constraintStart_toStartOf="@+id/imgBtn_Help"
-        app:layout_constraintTop_toBottomOf="@+id/imgBtn_Help"
-        app:layout_constraintBottom_toTopOf="@id/imgBtn_Exit"/>
+        app:layout_constraintEnd_toEndOf="@+id/title_imgBtn_Help"
+        app:layout_constraintStart_toStartOf="@+id/title_imgBtn_Help"
+        app:layout_constraintTop_toBottomOf="@+id/title_imgBtn_Help"
+        app:layout_constraintBottom_toTopOf="@id/title_imgBtn_Exit"/>
     <TextView
         android:id="@+id/txtView_Credits"
         android:layout_width="110dp"
@@ -146,40 +146,40 @@
         android:textAlignment="center"
         android:textAllCaps="true"
         android:textColor="#17569B"
-        android:textSize="18sp"
+        android:textSize="16sp"
         android:textStyle="bold"
-        app:layout_constraintEnd_toEndOf="@+id/imgBtn_Credits"
-        app:layout_constraintStart_toStartOf="@+id/imgBtn_Credits"
-        app:layout_constraintTop_toBottomOf="@+id/imgBtn_Credits"
-        app:layout_constraintBottom_toTopOf="@id/imgBtn_Exit"/>
+        app:layout_constraintEnd_toEndOf="@+id/title_imgBtn_Credits"
+        app:layout_constraintStart_toStartOf="@+id/title_imgBtn_Credits"
+        app:layout_constraintTop_toBottomOf="@+id/title_imgBtn_Credits"
+        app:layout_constraintBottom_toTopOf="@id/title_imgBtn_Exit"/>
 
     <ImageButton
-        android:id="@+id/imgBtn_Extras"
+        android:id="@+id/title_imgBtn_Extras"
         android:layout_width="90dp"
         android:layout_height="90dp"
-        android:background="@drawable/bg_button_titlescreen"
+        android:background="@drawable/titlescreen_button_states"
         android:src="@drawable/ic_extras"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toStartOf="@id/imgBtn_ManageStates"
+        app:layout_constraintEnd_toStartOf="@id/title_imgBtn_ManageStates"
         app:layout_constraintTop_toBottomOf="@+id/txtView_LoadROM"
         app:layout_constraintBottom_toTopOf="@id/txtView_Extras"/>
     <ImageButton
-        android:id="@+id/imgBtn_ManageStates"
+        android:id="@+id/title_imgBtn_ManageStates"
         android:layout_width="90dp"
         android:layout_height="90dp"
-        android:background="@drawable/bg_button_titlescreen"
+        android:background="@drawable/titlescreen_button_states"
         android:src="@drawable/ic_manage_states"
-        app:layout_constraintStart_toEndOf="@id/imgBtn_Extras"
-        app:layout_constraintEnd_toStartOf="@id/imgBtn_Exit"
+        app:layout_constraintStart_toEndOf="@id/title_imgBtn_Extras"
+        app:layout_constraintEnd_toStartOf="@id/title_imgBtn_Exit"
         app:layout_constraintTop_toBottomOf="@+id/txtView_Options"
         app:layout_constraintBottom_toTopOf="@id/txtView_ManageStates" />
     <ImageButton
-        android:id="@+id/imgBtn_Exit"
+        android:id="@+id/title_imgBtn_Exit"
         android:layout_width="90dp"
         android:layout_height="90dp"
-        android:background="@drawable/bg_button_titlescreen"
+        android:background="@drawable/titlescreen_button_states"
         android:src="@drawable/ic_exit"
-        app:layout_constraintStart_toEndOf="@id/imgBtn_ManageStates"
+        app:layout_constraintStart_toEndOf="@id/title_imgBtn_ManageStates"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/txtView_Help"
         app:layout_constraintBottom_toTopOf="@id/txtView_Exit" />
@@ -194,12 +194,12 @@
         android:textAlignment="center"
         android:textAllCaps="true"
         android:textColor="#17569B"
-        android:textSize="18sp"
+        android:textSize="16sp"
         android:textStyle="bold"
         app:layout_constraintBottom_toTopOf="@+id/h_guideline"
-        app:layout_constraintEnd_toEndOf="@+id/imgBtn_Extras"
-        app:layout_constraintStart_toStartOf="@+id/imgBtn_Extras"
-        app:layout_constraintTop_toBottomOf="@+id/imgBtn_Extras" />
+        app:layout_constraintEnd_toEndOf="@+id/title_imgBtn_Extras"
+        app:layout_constraintStart_toStartOf="@+id/title_imgBtn_Extras"
+        app:layout_constraintTop_toBottomOf="@+id/title_imgBtn_Extras" />
 
     <TextView
         android:id="@+id/txtView_ManageStates"
@@ -211,12 +211,12 @@
         android:textAlignment="center"
         android:textAllCaps="true"
         android:textColor="#17569B"
-        android:textSize="18sp"
+        android:textSize="16sp"
         android:textStyle="bold"
         app:layout_constraintBottom_toTopOf="@+id/h_guideline"
-        app:layout_constraintEnd_toEndOf="@+id/imgBtn_ManageStates"
-        app:layout_constraintStart_toStartOf="@+id/imgBtn_ManageStates"
-        app:layout_constraintTop_toBottomOf="@+id/imgBtn_ManageStates" />
+        app:layout_constraintEnd_toEndOf="@+id/title_imgBtn_ManageStates"
+        app:layout_constraintStart_toStartOf="@+id/title_imgBtn_ManageStates"
+        app:layout_constraintTop_toBottomOf="@+id/title_imgBtn_ManageStates" />
 
     <TextView
         android:id="@+id/txtView_Exit"
@@ -228,12 +228,12 @@
         android:textAlignment="center"
         android:textAllCaps="true"
         android:textColor="#17569B"
-        android:textSize="18sp"
+        android:textSize="16sp"
         android:textStyle="bold"
         app:layout_constraintBottom_toTopOf="@+id/h_guideline"
-        app:layout_constraintEnd_toEndOf="@+id/imgBtn_Exit"
-        app:layout_constraintStart_toStartOf="@+id/imgBtn_Exit"
-        app:layout_constraintTop_toBottomOf="@+id/imgBtn_Exit" />
+        app:layout_constraintEnd_toEndOf="@+id/title_imgBtn_Exit"
+        app:layout_constraintStart_toStartOf="@+id/title_imgBtn_Exit"
+        app:layout_constraintTop_toBottomOf="@+id/title_imgBtn_Exit" />
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/h_guideline"

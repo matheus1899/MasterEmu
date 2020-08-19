@@ -11,6 +11,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.view.MotionEvent;
 import android.view.View;
+import android.widget.ImageButton;
 import android.widget.LinearLayout.LayoutParams;
 import android.view.KeyEvent;
 import android.view.InputDevice;
@@ -61,10 +62,8 @@ public class TitlescreenActivity extends Activity {
     /**
      * This method creates the titlescreen.
      */
-    @SuppressWarnings("deprecation")
-    @Override protected void onCreate(Bundle savedInstanceState) {
+    @SuppressWarnings("deprecation") @Override protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         try {
             Runtime.getRuntime().loadLibrary("SDL2");
         }
@@ -74,6 +73,7 @@ public class TitlescreenActivity extends Activity {
             finish();
         }
         setContentView(R.layout.titlescreen_activity);
+        SetButtonBehaviors();
         /*
         // Add listeners
         ButtonColourListener bcl = new ButtonColourListener();
@@ -177,7 +177,56 @@ public class TitlescreenActivity extends Activity {
         titlescreen_root.setOnGenericMotionListener(new MasterEmuMotionListener());
         */
     }
+    private void SetButtonBehaviors(){
+        ImageButton imgBtn_LoadROM = findViewById(R.id.title_imgBtn_LoadROM);
+        ImageButton imgBtn_Options = findViewById(R.id.title_imgBtn_Options);
+        ImageButton imgBtn_Help = findViewById(R.id.title_imgBtn_Help);
+        ImageButton imgBtn_Credits = findViewById(R.id.title_imgBtn_Credits);
+        ImageButton imgBtn_Extras = findViewById(R.id.title_imgBtn_Extras);
+        ImageButton imgBtn_ManageStates = findViewById(R.id.title_imgBtn_ManageStates);
+        ImageButton imgBtn_Exit = findViewById(R.id.title_imgBtn_Exit);
 
+        imgBtn_LoadROM.setOnClickListener(new View.OnClickListener() {
+            @Override public void onClick(View v) {
+                Intent i = new Intent(TitlescreenActivity.this, FileBrowser.class);
+                i.putExtra("actionType", "load_rom");
+                startActivity(i);
+            }
+        });
+
+        imgBtn_Options.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(TitlescreenActivity.this, OptionsActivity.class));
+            }
+        });
+
+        imgBtn_Help.setOnClickListener(new View.OnClickListener() {
+            @Override public void onClick(View v) {
+                startActivity(new Intent(TitlescreenActivity.this, HelpActivity.class));
+            }
+        });
+        imgBtn_Credits.setOnClickListener(new View.OnClickListener() {
+            @Override public void onClick(View v) {
+                startActivity(new Intent(TitlescreenActivity.this, CreditsActivity.class));
+            }
+        });
+        imgBtn_Extras.setOnClickListener(new View.OnClickListener() {
+            @Override public void onClick(View v) {
+                startActivity(new Intent(TitlescreenActivity.this, ExtrasActivity.class));
+            }
+        });
+        imgBtn_ManageStates.setOnClickListener(new View.OnClickListener() {
+            @Override public void onClick(View v) {
+                startActivity(new Intent(TitlescreenActivity.this, ManageStatesActivity.class));
+            }
+        });
+        imgBtn_Exit.setOnClickListener(new View.OnClickListener() {
+            @Override public void onClick(View v) {
+                finish();
+            }
+        });
+    }
     /**
      * This method helps us to detect gamepad events and do the right thing with them.
      */

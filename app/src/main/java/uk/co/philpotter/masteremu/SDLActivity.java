@@ -7,6 +7,7 @@ import java.lang.reflect.Method;
 
 import android.app.*;
 import android.content.*;
+import android.content.ClipboardManager.OnPrimaryClipChangedListener;
 import android.content.res.Configuration;
 import android.text.InputType;
 import android.view.*;
@@ -295,6 +296,9 @@ public class SDLActivity extends Activity {
     protected void onResume() {
         Log.v(TAG, "onResume()");
         super.onResume();
+        View decorView = getWindow().getDecorView();
+        int opt = View.SYSTEM_UI_FLAG_HIDE_NAVIGATION | View.SYSTEM_UI_FLAG_FULLSCREEN | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY | View.SYSTEM_UI_FLAG_LOW_PROFILE;
+        decorView.setSystemUiVisibility(opt);
         mNextNativeState = NativeState.RESUMED;
         mIsResumedCalled = true;
 
@@ -557,7 +561,6 @@ public class SDLActivity extends Activity {
             }
         }
     }
-
     // Handler for the messages
     Handler commandHandler = new SDLCommandHandler();
 
@@ -615,8 +618,7 @@ public class SDLActivity extends Activity {
      * This is a static method for JNI convenience, it calls a non-static method
      * so that is can be overridden  
      */
-    public static void setOrientation(int w, int h, boolean resizable, String hint)
-    {
+    public static void setOrientation(int w, int h, boolean resizable, String hint){
         if (mSingleton != null) {
             mSingleton.setOrientationBis(w, h, resizable, hint);
         }
@@ -1717,10 +1719,7 @@ interface SDLClipboardHandler {
 
 }
 
-
-class SDLClipboardHandler_API11 implements
-    SDLClipboardHandler, 
-    android.content.ClipboardManager.OnPrimaryClipChangedListener {
+class SDLClipboardHandler_API11 implements SDLClipboardHandler,  OnPrimaryClipChangedListener {
 
     protected android.content.ClipboardManager mClipMgr;
 
@@ -1758,8 +1757,7 @@ class SDLClipboardHandler_API11 implements
 
 }
 
-class SDLClipboardHandler_Old implements
-    SDLClipboardHandler {
+class SDLClipboardHandler_Old implements SDLClipboardHandler {
    
     protected android.text.ClipboardManager mClipMgrOld;
   
