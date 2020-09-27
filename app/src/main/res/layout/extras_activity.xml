@@ -1,69 +1,93 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:background="@drawable/bg_ms_cover_portrait"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fillViewport="true">
 
-    <LinearLayout android:orientation="vertical" android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="@color/background_colour"
-        android:gravity="center_horizontal"
-        android:id="@+id/extras_root">
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:padding="@dimen/default_margin_portrait"
+        android:layout_gravity="center"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
 
-        <TextView android:layout_width="wrap_content"
+        <TextView
+            android:id="@+id/extras_txt_title"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textColor="@color/text_colour"
-            android:textStyle="bold"
-            android:textSize="24sp"
+            android:layout_marginBottom="16dp"
             android:text="@string/extras_header"
-            android:layout_marginBottom="5sp"
-            android:id="@+id/extras_title"/>
+            android:textColor="#17569B"
+            android:textSize="22sp"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintBottom_toTopOf="@id/extras_second_root" />
 
-        <TextView android:layout_width="match_parent"
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/extras_second_root"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:scrollbars="vertical"
-            android:id="@+id/extras_blurb"
-            android:textColor="@color/text_colour"
-            android:textSize="18sp"
-            android:gravity="center_horizontal"
-            android:paddingLeft="5sp"
-            android:paddingRight="5sp"/>
+            android:background="@drawable/teste_bg_highlight"
+            android:elevation="4dp"
+            android:padding="16dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
 
-        <LinearLayout android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:gravity="center"
-            android:layout_marginBottom="5sp"
-            android:layout_marginTop="5sp">
-            <uk.co.philpotter.masteremu.ControllerTextView
-                android:layout_width="wrap_content"
+            <TextView
+                tools:text="@tools:sample/lorem/random"
+                android:id="@+id/extras_view"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textColor="@color/text_colour"
-                android:textStyle="bold"
+                android:layout_marginHorizontal="16dp"
+                android:layout_marginTop="16dp"
+                android:gravity="center_horizontal"
+                android:textColor="@color/PrimaryLight"
                 android:textSize="18sp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintBottom_toTopOf="@id/extras_btn_phil_website"
+                />
+            <Button
+                android:id="@+id/extras_btn_phil_website"
+                android:layout_width="225dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="16dp"
+                android:background="@drawable/default_button_states"
+                android:elevation="4dp"
                 android:text="Visit PotterSoft Website"
-                android:id="@+id/extras_website_button"
-                android:padding="5sp"
-                android:background="@drawable/view_border"
-                android:gravity="center"/>
-        </LinearLayout>
-
-        <LinearLayout android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:gravity="center"
-            android:layout_marginBottom="5sp"
-            android:layout_marginTop="20sp">
-            <uk.co.philpotter.masteremu.ControllerTextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textColor="@color/text_colour"
+                android:textColor="@color/Primary"
                 android:textStyle="bold"
-                android:textSize="18sp"
-                android:text="View source code"
-                android:id="@+id/extras_source_button"
-                android:padding="5sp"
-                android:background="@drawable/view_border"
-                android:gravity="center"/>
-        </LinearLayout>
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/extras_view"
+                app:layout_constraintBottom_toTopOf="@id/extras_btn_github_sourcecode"
+                />
 
-    </LinearLayout>
+            <Button
+                android:id="@+id/extras_btn_github_sourcecode"
+                android:layout_width="225dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="8dp"
+                android:layout_marginBottom="16dp"
+                android:background="@drawable/default_button_states"
+                android:drawableStart="@drawable/ic_github"
+                android:elevation="4dp"
+                android:text="View Source Code"
+                android:textColor="@color/Primary"
+                android:textStyle="bold"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/extras_btn_phil_website"/>
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 </ScrollView>

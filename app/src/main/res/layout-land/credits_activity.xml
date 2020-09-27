@@ -4,7 +4,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/bg_ms_cover_portrait">
+    android:background="@drawable/bg_ms_cover_landscape">
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/credits_h_guideline1"
         android:layout_width="wrap_content"
@@ -36,7 +36,7 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:elevation="4dp"
         android:id="@+id/credits_second_root"
-        android:layout_marginHorizontal="@dimen/default_margin_portrait"
+        android:layout_marginHorizontal="@dimen/default_margin_landscape"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:paddingVertical="4dp"
@@ -45,7 +45,6 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/credits_txt_title">
-
         <ScrollView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -64,5 +63,4 @@
                 android:textSize="18sp"/>
         </ScrollView>
     </androidx.constraintlayout.widget.ConstraintLayout>
-
 </androidx.constraintlayout.widget.ConstraintLayout>

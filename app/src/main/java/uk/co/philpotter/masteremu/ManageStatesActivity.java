@@ -8,21 +8,13 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
-import android.graphics.drawable.Drawable;
-import android.os.Build;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.InputDevice;
 import android.view.KeyEvent;
 import android.view.MotionEvent;
 import android.view.View;
-import android.widget.LinearLayout;
-import android.widget.TextView;
+import android.widget.Button;
 import android.widget.Toast;
-
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
 
 /**
  * This class acts as the manage states screen of the app.
@@ -37,121 +29,25 @@ public class ManageStatesActivity extends Activity {
     /**
      * This method creates the manage states screen.
      */
-    @SuppressWarnings("deprecation")
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    @SuppressWarnings("deprecation") @Override protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.managestates_activity);
-
-        StringBuilder managestatesText = new StringBuilder();
-        String line = new String();
-        BufferedReader bufferedStream = null;
-
-        try {
-            bufferedStream = new BufferedReader(new InputStreamReader(getAssets().open("managestates.txt")));
-
-            while ((line = bufferedStream.readLine()) != null) {
-                managestatesText.append(line);
-                managestatesText.append('\n');
-            }
-        }
-        catch (IOException e) {
-            Log.e("ManageStatesActivity:", "Encountered error reading managestates file: " + e.toString());
-        }
-        finally {
-            try {
-                bufferedStream.close();
-            }
-            catch (IOException e) {
-                Log.e("ManageStatesActivity:", "Encountered error closing managestates file: " + e.toString());
-            }
-        }
-
-        TextView managestatesView = (TextView)findViewById(R.id.managestates_blurb);
-        managestatesView.setText(managestatesText);
-
-        ButtonColourListener bcl = new ButtonColourListener();
-        ControllerTextView managestates_import_states_button = (ControllerTextView)findViewById(R.id.managestates_import_states_button);
-        Intent managestates_import_states_Intent = new Intent(this, FileBrowser.class);
-        managestates_import_states_Intent.putExtra("actionType", "import_states");
-        managestates_import_states_button.setIntent(managestates_import_states_Intent);
-        managestates_import_states_button.setOnTouchListener(bcl);
-        ControllerTextView managestates_export_states_button = (ControllerTextView)findViewById(R.id.managestates_export_states_button);
-        Intent managestates_export_states_Intent = new Intent(this, FileBrowser.class);
-        managestates_export_states_Intent.putExtra("actionType", "export_states");
-        managestates_export_states_button.setIntent(managestates_export_states_Intent);
-        managestates_export_states_button.setOnTouchListener(bcl);
-        managestates_wipe_states_button = (ControllerTextView)findViewById(R.id.managestates_wipe_states_button);
-        managestates_wipe_states_button.setOnTouchListener(bcl);
-
-        // Set all buttons to same width
-        int longest = 0;
-        managestates_import_states_button.measure(View.MeasureSpec.UNSPECIFIED, View.MeasureSpec.UNSPECIFIED);
-        managestates_export_states_button.measure(View.MeasureSpec.UNSPECIFIED, View.MeasureSpec.UNSPECIFIED);
-        managestates_wipe_states_button.measure(View.MeasureSpec.UNSPECIFIED, View.MeasureSpec.UNSPECIFIED);
-        if (managestates_import_states_button.getMeasuredWidth() > longest)
-            longest = managestates_import_states_button.getMeasuredWidth();
-        if (managestates_export_states_button.getMeasuredWidth() > longest)
-            longest = managestates_export_states_button.getMeasuredWidth();
-        if (managestates_wipe_states_button.getMeasuredWidth() > longest)
-            longest = managestates_wipe_states_button.getMeasuredWidth();
-        managestates_import_states_button.setLayoutParams(new LinearLayout.LayoutParams(longest, managestates_import_states_button.getMeasuredHeight()));
-        managestates_export_states_button.setLayoutParams(new LinearLayout.LayoutParams(longest, managestates_export_states_button.getMeasuredHeight()));
-        managestates_wipe_states_button.setLayoutParams(new LinearLayout.LayoutParams(longest, managestates_wipe_states_button.getMeasuredHeight()));
-
-        // Load drawables for apply button
-        Drawable light = null;
-        Drawable dark = null;
-        int lightText, darkText;
-        if (android.os.Build.VERSION.SDK_INT < Build.VERSION_CODES.M) {
-            lightText = getResources().getColor(R.color.text_colour);
-            darkText = getResources().getColor(R.color.text_greyed_out);
-        } else {
-            lightText = getResources().getColor(R.color.text_colour, null);
-            darkText = getResources().getColor(R.color.text_greyed_out, null);
-        }
-        if (android.os.Build.VERSION.SDK_INT < android.os.Build.VERSION_CODES.LOLLIPOP_MR1) {
-            dark = getResources().getDrawable(R.drawable.view_greyed_out_border);
-            light = getResources().getDrawable(R.drawable.view_border);
-        } else {
-            dark = getResources().getDrawable(R.drawable.view_greyed_out_border, null);
-            light = getResources().getDrawable(R.drawable.view_border, null);
-        }
-        managestates_import_states_button.setActiveDrawable(dark);
-        managestates_import_states_button.setInactiveDrawable(light);
-        managestates_import_states_button.setHighlightedTextColour(darkText);
-        managestates_import_states_button.setUnhighlightedTextColour(lightText);
-        managestates_export_states_button.setActiveDrawable(dark);
-        managestates_export_states_button.setInactiveDrawable(light);
-        managestates_export_states_button.setHighlightedTextColour(darkText);
-        managestates_export_states_button.setUnhighlightedTextColour(lightText);
-        managestates_wipe_states_button.setActiveDrawable(dark);
-        managestates_wipe_states_button.setInactiveDrawable(light);
-        managestates_wipe_states_button.setHighlightedTextColour(darkText);
-        managestates_wipe_states_button.setUnhighlightedTextColour(lightText);
-
-        // Create selection object and add mappings to it.
-        selectionObj = new ControllerSelection();
-        selectionObj.addMapping(managestates_import_states_button);
-        selectionObj.addMapping(managestates_export_states_button);
-        selectionObj.addMapping(managestates_wipe_states_button);
-
-        // Set focus
-        View managestates_title = findViewById(R.id.managestates_title);
-        managestates_title.requestFocus();
-
-        // Set new MasterEmuMotionListener
-        View managestates_root = findViewById(R.id.managestates_root);
-        managestates_root.setOnGenericMotionListener(new MasterEmuMotionListener());
+        setButtonBehaviors();
     }
+    private void setButtonBehaviors(){
+        Button import_states_button = findViewById(R.id.managestates_import_states_button);
+        Button export_states_button = findViewById(R.id.managestates_export_states_button);
+        Button wipe_states_button = findViewById(R.id.managestates_wipe_states_button);
 
+        import_states_button.setOnClickListener(new ManageStatesButtonBehaviors());
+        export_states_button.setOnClickListener(new ManageStatesButtonBehaviors());
+        wipe_states_button.setOnClickListener(new ManageStatesButtonBehaviors());
+    }
     /**
      * This method currently just keeps the orientation locked if necessary.
      */
-    @Override
-    protected void onStart() {
+    @Override protected void onStart() {
         super.onStart();
-
         // make sure screen orientation is set here if locked
         if (OptionStore.orientation_lock) {
             if (OptionStore.orientation.equals("portrait")) {
@@ -167,8 +63,7 @@ public class ManageStatesActivity extends Activity {
     /**
      * This method helps us to detect gamepad events and do the right thing with them.
      */
-    @Override
-    public boolean dispatchKeyEvent(KeyEvent event) {
+    @Override public boolean dispatchKeyEvent(KeyEvent event) {
         int action, keycode;
         boolean returnVal = false;
         action = event.getAction();
@@ -257,22 +152,11 @@ public class ManageStatesActivity extends Activity {
     }
 
     /**
-     * This inner class allows us to support joysticks with a listener.
-     */
-    protected class MasterEmuMotionListener implements View.OnGenericMotionListener {
-        @Override
-        public boolean onGenericMotion(View v, MotionEvent event) {
-            return ManageStatesActivity.this.motionEvent(event);
-        }
-    }
-
-    /**
      * This shows a message.
      * @param message
      */
     public void showMessage(String message) {
-        Toast messageToast = Toast.makeText(this, message, Toast.LENGTH_SHORT);
-        messageToast.show();
+        Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
     }
 
     /**
@@ -302,27 +186,21 @@ public class ManageStatesActivity extends Activity {
         }
     }
 
-    /**
-     * This class allows us to animate a button.
-     */
-    protected class ButtonColourListener implements View.OnTouchListener {
+    class ManageStatesButtonBehaviors implements View.OnClickListener{
+        @Override public void onClick(View view) {
 
-        /**
-         * This is the actual implementation code.
-         */
-        @Override
-        public boolean onTouch(View v, MotionEvent event) {
-
-            ControllerMapped cv = (ControllerMapped) v;
-            if (event.getAction() == MotionEvent.ACTION_DOWN) {
-                cv.highlight();
-            } else if (event.getAction() == MotionEvent.ACTION_UP) {
-                cv.unHighlight();
-                if (cv != managestates_wipe_states_button) {
-                    cv.activate();
-                }
-                else {
-                    // create dialogue
+            switch (view.getId()){
+                case R.id.managestates_import_states_button:
+                    Intent import_states_intent = new Intent(ManageStatesActivity.this, FileBrowserActivity.class);
+                    import_states_intent.putExtra("actionType", "import_states");
+                    startActivity(import_states_intent);
+                    break;
+                case R.id.managestates_export_states_button:
+                    Intent export_states_intent = new Intent(ManageStatesActivity.this, FileBrowserActivity.class);
+                    export_states_intent.putExtra("actionType", "export_states");
+                    startActivity(export_states_intent);
+                    break;
+                case R.id.managestates_wipe_states_button:
                     AlertDialog wipeMenu = new AlertDialog.Builder(ManageStatesActivity.this).create();
                     wipeMenu.setTitle("Wipe Prompt");
                     wipeMenu.setMessage("Are you sure you want to wipe all save states and saves?");
@@ -330,10 +208,10 @@ public class ManageStatesActivity extends Activity {
                     wipeMenu.setButton(DialogInterface.BUTTON_POSITIVE, "YES", wl);
                     wipeMenu.setButton(DialogInterface.BUTTON_NEGATIVE, "NO", wl);
                     wipeMenu.show();
-                }
+                    break;
+                default:
+                    finish();
             }
-
-            return true;
         }
     }
 }

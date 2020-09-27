@@ -2,7 +2,6 @@
 <androidx.constraintlayout.widget.ConstraintLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:background="@drawable/bg_ms_cover_portrait"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
@@ -16,7 +15,18 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/splash_h_guideline1" />
-
+    <TextView
+        android:id="@+id/splash_txt_appname"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/source_sans_pro"
+        android:text="@string/app_name"
+        android:textColor="@android:color/black"
+        android:textSize="40sp"
+        app:layout_constraintBottom_toTopOf="@+id/splash_txt_creator"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/splash_img_logo" />
     <TextView
         android:id="@+id/splash_txt_by"
         android:layout_width="wrap_content"
@@ -25,10 +35,10 @@
         android:fontFamily="@font/dancing_script"
         android:text="by"
         android:textSize="18sp"
+        android:textColor="@android:color/black"
         app:layout_constraintBottom_toBottomOf="@+id/splash_txt_creator"
         app:layout_constraintEnd_toStartOf="@+id/splash_txt_creator"
         app:layout_constraintTop_toTopOf="@+id/splash_txt_creator" />
-
     <TextView
         android:id="@+id/splash_txt_creator"
         android:layout_width="wrap_content"
@@ -37,23 +47,11 @@
         android:text="Phillip Potter"
         android:textSize="20sp"
         android:layout_marginBottom="24dp"
+        android:textColor="@android:color/black"
         app:layout_constraintBottom_toTopOf="@+id/splash_img_gamegear"
         app:layout_constraintEnd_toEndOf="@id/splash_txt_appname"
         app:layout_constraintStart_toStartOf="@id/splash_txt_appname"
         app:layout_constraintTop_toBottomOf="@+id/splash_txt_appname" />
-
-    <TextView
-        android:id="@+id/splash_txt_appname"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:fontFamily="@font/source_sans_pro"
-        android:text="@string/app_name"
-        android:textSize="42sp"
-        app:layout_constraintBottom_toTopOf="@+id/splash_txt_creator"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/splash_img_logo" />
-
     <ImageView
         android:id="@+id/splash_img_gamegear"
         android:layout_width="90dp"

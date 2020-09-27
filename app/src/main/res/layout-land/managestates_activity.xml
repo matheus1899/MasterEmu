@@ -4,7 +4,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/bg_ms_cover_portrait"
+    android:background="@drawable/bg_ms_cover_landscape"
     android:fillViewport="true">
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
@@ -41,62 +41,60 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:background="@drawable/teste_bg_highlight"
+            android:elevation="4dp"
             android:orientation="vertical"
             android:padding="@dimen/default_margin_portrait"
-            android:elevation="4dp"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="@id/managestates_v_guideline1"
             app:layout_constraintEnd_toEndOf="@id/managestates_v_guideline2"
-            app:layout_constraintTop_toTopOf="parent">
-
+            app:layout_constraintStart_toStartOf="@id/managestates_v_guideline1"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.6">
             <TextView
                 android:id="@+id/managestates_textview"
-                android:text="@string/managestates_text"
-                android:textColor="@color/Primary"
-                android:textSize="18sp"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
-            <LinearLayout
-                android:layout_marginTop="8dp"
-                android:layout_gravity="center_horizontal"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:text="@string/managestates_text"
+                android:textColor="@color/Primary"
+                android:textSize="18sp" />
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="16dp"
                 android:orientation="horizontal">
                 <Button
                     android:id="@+id/managestates_import_states_button"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
                     android:layout_weight="1"
                     android:elevation="4dp"
                     android:background="@drawable/default_button_states"
                     android:text="Import States"
-                    android:layout_gravity="center_horizontal"
                     android:textColor="@color/Primary"
                     android:textStyle="bold" />
-
                 <Button
                     android:id="@+id/managestates_export_states_button"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginStart="8dp"
                     android:layout_weight="1"
                     android:elevation="4dp"
-                    android:layout_marginStart="4dp"
                     android:background="@drawable/default_button_states"
                     android:text="Export States"
-                    android:layout_gravity="center_horizontal"
                     android:textColor="@color/Primary"
                     android:textStyle="bold" />
-
                 <Button
                     android:id="@+id/managestates_wipe_states_button"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginStart="8dp"
                     android:layout_weight="1"
                     android:elevation="4dp"
-                    android:layout_marginStart="4dp"
                     android:background="@drawable/default_button_states"
                     android:text="Wipe All States"
-                    android:layout_gravity="center_horizontal"
                     android:textColor="@color/Primary"
                     android:textStyle="bold" />
             </LinearLayout>

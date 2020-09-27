@@ -7,7 +7,6 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.pm.ActivityInfo;
-import android.os.Build;
 import android.os.Bundle;
 
 import java.io.BufferedReader;
@@ -57,7 +56,7 @@ import androidx.core.app.ActivityCompat;
  * to select a ROM path, state ZIP file or export directory to
  * pass to the native code or StateIO routines.
  */
-public class FileBrowser extends Activity {
+public class FileBrowserActivity extends Activity {
 
     // constant for storage permission request
     private static final int FILEBROWSER_READ_STORAGE_REQUEST = 0;
@@ -91,10 +90,12 @@ public class FileBrowser extends Activity {
         if (OptionStore.orientation_lock) {
             if (OptionStore.orientation.equals("portrait")) {
                 setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
-            } else if (OptionStore.orientation.equals("landscape")) {
+            }
+            else if (OptionStore.orientation.equals("landscape")) {
                 setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
             }
-        } else {
+        }
+        else {
             setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_SENSOR);
         }
     }
@@ -296,7 +297,7 @@ public class FileBrowser extends Activity {
                 currentPath = f.getCanonicalPath();
             }
             catch (IOException e) {
-                Toast error = Toast.makeText(FileBrowser.this, "Can't open zip file, possibly corrupted", Toast.LENGTH_SHORT);
+                Toast error = Toast.makeText(FileBrowserActivity.this, "Can't open zip file, possibly corrupted", Toast.LENGTH_SHORT);
                 error.show();
                 return;
             }
@@ -334,7 +335,7 @@ public class FileBrowser extends Activity {
             try {
                 tempEmuFileArray = new EmuFile[tempFileArray.length];
             } catch (NullPointerException e) {
-                Toast error = Toast.makeText(FileBrowser.this, "Can't open this, probably not mounted", Toast.LENGTH_SHORT);
+                Toast error = Toast.makeText(FileBrowserActivity.this, "Can't open this, probably not mounted", Toast.LENGTH_SHORT);
                 error.show();
                 return;
             }
@@ -587,21 +588,21 @@ public class FileBrowser extends Activity {
 
                         // check ROM is validly initialised
                         if (!romData.isReady()) {
-                            Toast error = Toast.makeText(FileBrowser.this, "Can't open ROM file, error encountered", Toast.LENGTH_SHORT);
+                            Toast error = Toast.makeText(FileBrowserActivity.this, "Can't open ROM file, error encountered", Toast.LENGTH_SHORT);
                             error.show();
                             return;
                         }
-                        FileBrowser.transferData = romData;
+                        FileBrowserActivity.transferData = romData;
 
                         if (OptionStore.game_genie) {
                             // get CRC32 checksum
                             CRC32 crcGen = new CRC32();
                             crcGen.update(romData.getRomData());
-                            FileBrowser.transferChecksum = Long.toHexString(crcGen.getValue());
-                            Intent codesIntent = new Intent(FileBrowser.this, CodesActivity.class);
+                            FileBrowserActivity.transferChecksum = Long.toHexString(crcGen.getValue());
+                            Intent codesIntent = new Intent(FileBrowserActivity.this, CodesActivity.class);
                             startActivity(codesIntent);
                         } else {
-                            Intent sdlIntent = new Intent(FileBrowser.this, SDLActivity.class);
+                            Intent sdlIntent = new Intent(FileBrowserActivity.this, SDLActivity.class);
                             startActivity(sdlIntent);
                         }
 
@@ -615,11 +616,11 @@ public class FileBrowser extends Activity {
                 } else {
                     // create dialogue
                     importPath = file.getAbsolutePath();
-                    AlertDialog importMenu = new AlertDialog.Builder(FileBrowser.this).create();
+                    AlertDialog importMenu = new AlertDialog.Builder(FileBrowserActivity.this).create();
                     importMenu.setTitle("Import Prompt");
                     importMenu.setMessage("Are you sure you want to import from " +
                             file.getName() + "?");
-                    FileBrowser.ImportListener il = new FileBrowser.ImportListener();
+                    FileBrowserActivity.ImportListener il = new FileBrowserActivity.ImportListener();
                     importMenu.setButton(DialogInterface.BUTTON_POSITIVE, "YES", il);
                     importMenu.setButton(DialogInterface.BUTTON_NEGATIVE, "NO", il);
                     importMenu.show();
@@ -631,9 +632,9 @@ public class FileBrowser extends Activity {
                 } else {
                     // check for permissions
                     if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.M) {
-                        if (ContextCompat.checkSelfPermission(FileBrowser.this, Manifest.permission.WRITE_EXTERNAL_STORAGE)
+                        if (ContextCompat.checkSelfPermission(FileBrowserActivity.this, Manifest.permission.WRITE_EXTERNAL_STORAGE)
                                 != PackageManager.PERMISSION_GRANTED) { // not granted
-                            ActivityCompat.requestPermissions(FileBrowser.this,
+                            ActivityCompat.requestPermissions(FileBrowserActivity.this,
                                     new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},
                                     FILEBROWSER_WRITE_STORAGE_REQUEST);
                         } else {
@@ -648,11 +649,11 @@ public class FileBrowser extends Activity {
     }
     private void exportMethod() {
         // create dialogue
-        AlertDialog exportMenu = new AlertDialog.Builder(FileBrowser.this).create();
+        AlertDialog exportMenu = new AlertDialog.Builder(FileBrowserActivity.this).create();
         exportMenu.setTitle("Export Prompt");
         exportMenu.setMessage("Are you sure you want to export to " +
                 currentPath + "?");
-        FileBrowser.ExportListener el = new FileBrowser.ExportListener();
+        FileBrowserActivity.ExportListener el = new FileBrowserActivity.ExportListener();
         exportMenu.setButton(DialogInterface.BUTTON_POSITIVE, "YES", el);
         exportMenu.setButton(DialogInterface.BUTTON_NEGATIVE, "NO", el);
         exportMenu.show();
@@ -662,7 +663,7 @@ public class FileBrowser extends Activity {
      */
     private class StorageClickListener implements View.OnClickListener {
         @Override public void onClick(View v) {
-            FileBrowser f = FileBrowser.this;
+            FileBrowserActivity f = FileBrowserActivity.this;
             ControllerTextView t = (ControllerTextView)v;
             String buttonText = t.getText().toString();
 
@@ -761,16 +762,16 @@ public class FileBrowser extends Activity {
                 settings.append("default_path=" + this.currentPath + "\n");
                 OptionStore.default_path = this.currentPath;
             } catch (FileNotFoundException e) {
-                Log.v("FileBrowser", "Settings file doesn't exist yet: " + e);
+                Log.v("FileBrowserActivity", "Settings file doesn't exist yet: " + e);
             } catch (IOException e) {
-                Log.e("FileBrowser", "Problem reading settings file: " + e);
+                Log.e("FileBrowserActivity", "Problem reading settings file: " + e);
             } finally {
                 // Close settings file
                 try {
                     if (settingsReader != null)
                         settingsReader.close();
                 } catch (IOException e) {
-                    Log.e("FileBrowser", "Couldn't close settings file: " + e);
+                    Log.e("FileBrowserActivity", "Couldn't close settings file: " + e);
                 }
             }
 
@@ -780,14 +781,14 @@ public class FileBrowser extends Activity {
                 r = new RandomAccessFile(settingsFile, "rw");
                 r.setLength(0);
             } catch (Exception e) {
-                Log.e("FileBrowser", "Problem occurred with RandomAccessFile: " + e);
+                Log.e("FileBrowserActivity", "Problem occurred with RandomAccessFile: " + e);
                 errors = true;
             } finally {
                 // close random acess file
                 try {
                     r.close();
                 } catch (IOException e) {
-                    Log.e("FileBrowser", "Couldn't close RandomAccessFile: " + e);
+                    Log.e("FileBrowserActivity", "Couldn't close RandomAccessFile: " + e);
                     errors = true;
                 }
             }
@@ -800,7 +801,7 @@ public class FileBrowser extends Activity {
             settingsWriter.write(settings.toString(), 0, settings.length());
         }
         catch (Exception e) {
-            Log.e("FileBrowser", "Problem occurred writing to settings file: " + e);
+            Log.e("FileBrowserActivity", "Problem occurred writing to settings file: " + e);
             errors = true;
         }
         finally {
@@ -816,10 +817,10 @@ public class FileBrowser extends Activity {
 
         Toast status = null;
         if (errors) {
-            status = Toast.makeText(FileBrowser.this, "Failed to set default path", Toast.LENGTH_SHORT);
+            status = Toast.makeText(FileBrowserActivity.this, "Failed to set default path", Toast.LENGTH_SHORT);
             status.show();
         } else {
-            status = Toast.makeText(FileBrowser.this, "Successfully set default path", Toast.LENGTH_SHORT);
+            status = Toast.makeText(FileBrowserActivity.this, "Successfully set default path", Toast.LENGTH_SHORT);
             status.show();
         }
     }
@@ -845,16 +846,16 @@ public class FileBrowser extends Activity {
 
                     // check success/failure
                     if (result) {
-                        Toast success = Toast.makeText(FileBrowser.this, "Imported states successfully", Toast.LENGTH_SHORT);
+                        Toast success = Toast.makeText(FileBrowserActivity.this, "Imported states successfully", Toast.LENGTH_SHORT);
                         success.show();
                         finish();
                     } else {
-                        Toast failure = Toast.makeText(FileBrowser.this, "Couldn't find states in this file", Toast.LENGTH_SHORT);
+                        Toast failure = Toast.makeText(FileBrowserActivity.this, "Couldn't find states in this file", Toast.LENGTH_SHORT);
                         failure.show();
                     }
                     break;
                 case DialogInterface.BUTTON_NEGATIVE:
-                    FileBrowser.this.showMessage("Import was cancelled");
+                    FileBrowserActivity.this.showMessage("Import was cancelled");
                     break;
             }
         }
@@ -886,20 +887,20 @@ public class FileBrowser extends Activity {
                     saveStateFileName.append('-');
                     saveStateFileName.append(cal.get(Calendar.SECOND));
                     saveStateFileName.append(".zip");
-                    boolean result = manager.exportToZip(getFilesDir().getAbsolutePath(), FileBrowser.this.currentPath + "/" + saveStateFileName.toString());
+                    boolean result = manager.exportToZip(getFilesDir().getAbsolutePath(), FileBrowserActivity.this.currentPath + "/" + saveStateFileName.toString());
 
                     // check success/failure
                     if (result) {
-                        Toast success = Toast.makeText(FileBrowser.this, "Exported states successfully", Toast.LENGTH_SHORT);
+                        Toast success = Toast.makeText(FileBrowserActivity.this, "Exported states successfully", Toast.LENGTH_SHORT);
                         success.show();
                         finish();
                     } else {
-                        Toast failure = Toast.makeText(FileBrowser.this, "Failed to export states here", Toast.LENGTH_SHORT);
+                        Toast failure = Toast.makeText(FileBrowserActivity.this, "Failed to export states here", Toast.LENGTH_SHORT);
                         failure.show();
                     }
                     break;
                 case DialogInterface.BUTTON_NEGATIVE:
-                    FileBrowser.this.showMessage("Export was cancelled");
+                    FileBrowserActivity.this.showMessage("Export was cancelled");
                     break;
             }
         }

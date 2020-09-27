@@ -23,8 +23,7 @@ public class CreditsActivity extends Activity {
     /**
      * This method sets the screen orientation when locked.
      */
-    @Override
-    protected void onStart() {
+    @Override protected void onStart() {
         super.onStart();
         if (OptionStore.orientation_lock) {
             if (OptionStore.orientation.equals("portrait")) {
@@ -40,8 +39,7 @@ public class CreditsActivity extends Activity {
     /**
      * This method creates the credits screen.
      */
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    @Override protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.credits_activity);
 

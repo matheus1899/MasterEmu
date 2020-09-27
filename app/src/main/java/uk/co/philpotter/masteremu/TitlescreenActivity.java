@@ -6,18 +6,13 @@ package uk.co.philpotter.masteremu;
 import android.app.Activity;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
-import android.graphics.drawable.Drawable;
-import android.os.Build;
 import android.os.Bundle;
-import android.view.MotionEvent;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageButton;
-import android.widget.LinearLayout.LayoutParams;
-import android.view.KeyEvent;
-import android.view.InputDevice;
+
 import java.io.File;
 import java.io.IOException;
-import android.util.Log;
 
 /**
  * This class acts as the titlescreen of the app.
@@ -33,7 +28,7 @@ public class TitlescreenActivity extends Activity {
      */
     @Override protected void onStart() {
         super.onStart();
-        /*File f = new File(getFilesDir() + "/default_file");
+        File f = new File(getFilesDir() + "/default_file");
         try {
             f.createNewFile();
         }
@@ -47,9 +42,10 @@ public class TitlescreenActivity extends Activity {
             } else if (OptionStore.orientation.equals("landscape")) {
                 setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
             }
-        } else {
+        }
+        else {
             setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_SENSOR);
-        }*/
+        }
     }
 
     /**
@@ -74,108 +70,6 @@ public class TitlescreenActivity extends Activity {
         }
         setContentView(R.layout.titlescreen_activity);
         SetButtonBehaviors();
-        /*
-        // Add listeners
-        ButtonColourListener bcl = new ButtonColourListener();
-        ControllerTextView title_load_button = (ControllerTextView)findViewById(R.id.title_load_button);
-        ControllerTextView title_options_button = (ControllerTextView)findViewById(R.id.title_options_button);
-        ControllerTextView title_help_button = (ControllerTextView)findViewById(R.id.title_help_button);
-        ControllerTextView title_credits_button = (ControllerTextView)findViewById(R.id.title_credits_button);
-        ControllerTextView title_extras_button = (ControllerTextView)findViewById(R.id.title_extras_button);
-        ControllerTextView title_manage_states_button = (ControllerTextView)findViewById(R.id.title_manage_states_button);
-        ControllerTextView title_exit_button = (ControllerTextView)findViewById(R.id.title_exit_button);
-        title_load_button.setOnTouchListener(bcl);
-        title_options_button.setOnTouchListener(bcl);
-        title_help_button.setOnTouchListener(bcl);
-        title_credits_button.setOnTouchListener(bcl);
-        title_extras_button.setOnTouchListener(bcl);
-        title_manage_states_button.setOnTouchListener(bcl);
-        title_exit_button.setOnTouchListener(bcl);
-
-        // Change visiblity
-        findViewById(R.id.txtView_Wait).setVisibility(View.GONE);
-        findViewById(R.id.titlescreen_go).setVisibility(View.VISIBLE);
-
-        // Set drawables on buttons and create their intents
-        Drawable light = null;
-        Drawable dark = null;
-        int lightText, darkText;
-        if (android.os.Build.VERSION.SDK_INT < Build.VERSION_CODES.M) {
-            lightText = getResources().getColor(R.color.text_colour);
-            darkText = getResources().getColor(R.color.text_greyed_out);
-        } else {
-            lightText = getResources().getColor(R.color.text_colour, null);
-            darkText = getResources().getColor(R.color.text_greyed_out, null);
-        }
-        if (android.os.Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP_MR1) {
-            dark = getResources().getDrawable(R.drawable.view_greyed_out_border);
-            light = getResources().getDrawable(R.drawable.view_border);
-        } else {
-            dark = getResources().getDrawable(R.drawable.view_greyed_out_border, null);
-            light = getResources().getDrawable(R.drawable.view_border, null);
-        }
-        title_load_button.setActiveDrawable(dark);
-        title_load_button.setInactiveDrawable(light);
-        title_load_button.setHighlightedTextColour(darkText);
-        title_load_button.setUnhighlightedTextColour(lightText);
-        //
-        title_options_button.setActiveDrawable(dark);
-        title_options_button.setInactiveDrawable(light);
-        title_options_button.setHighlightedTextColour(darkText);
-        title_options_button.setUnhighlightedTextColour(lightText);
-        //
-        title_help_button.setActiveDrawable(dark);
-        title_help_button.setInactiveDrawable(light);
-        title_help_button.setHighlightedTextColour(darkText);
-        title_help_button.setUnhighlightedTextColour(lightText);
-        //
-        title_credits_button.setActiveDrawable(dark);
-        title_credits_button.setInactiveDrawable(light);
-        title_credits_button.setHighlightedTextColour(darkText);
-        title_credits_button.setUnhighlightedTextColour(lightText);
-        //
-        title_extras_button.setActiveDrawable(dark);
-        title_extras_button.setInactiveDrawable(light);
-        title_extras_button.setHighlightedTextColour(darkText);
-        title_extras_button.setUnhighlightedTextColour(lightText);
-        //
-        title_manage_states_button.setActiveDrawable(dark);
-        title_manage_states_button.setInactiveDrawable(light);
-        title_manage_states_button.setHighlightedTextColour(darkText);
-        title_manage_states_button.setUnhighlightedTextColour(lightText);
-        //
-        title_exit_button.setActiveDrawable(dark);
-        title_exit_button.setInactiveDrawable(light);
-        title_exit_button.setHighlightedTextColour(darkText);
-        title_exit_button.setUnhighlightedTextColour(lightText);
-        //
-        Intent titleIntent = new Intent(TitlescreenActivity.this, FileBrowser.class);
-        titleIntent.putExtra("actionType", "load_rom");
-        title_load_button.setIntent(titleIntent);
-        //
-        title_options_button.setIntent(new Intent(TitlescreenActivity.this, OptionsActivity.class));
-        title_help_button.setIntent(new Intent(TitlescreenActivity.this, HelpActivity.class));
-        title_credits_button.setIntent(new Intent(TitlescreenActivity.this, CreditsActivity.class));
-        title_extras_button.setIntent(new Intent(TitlescreenActivity.this, ExtrasActivity.class));
-        title_manage_states_button.setIntent(new Intent(TitlescreenActivity.this, ManageStatesActivity.class));
-
-        // Create selection objects
-        selectionObj = new ControllerSelection();
-        selectionObj.addMapping(title_load_button);
-        selectionObj.addMapping(title_options_button);
-        selectionObj.addMapping(title_help_button);
-        selectionObj.addMapping(title_credits_button);
-        selectionObj.addMapping(title_extras_button);
-        selectionObj.addMapping(title_manage_states_button);
-        selectionObj.addMapping(title_exit_button);
-
-        // Set focus
-        title_load_button.requestFocus();
-
-        // Set new MasterEmuMotionListener
-        View titlescreen_root = findViewById(R.id.titlescreen_root);
-        titlescreen_root.setOnGenericMotionListener(new MasterEmuMotionListener());
-        */
     }
     private void SetButtonBehaviors(){
         ImageButton imgBtn_LoadROM = findViewById(R.id.title_imgBtn_LoadROM);
@@ -188,7 +82,7 @@ public class TitlescreenActivity extends Activity {
 
         imgBtn_LoadROM.setOnClickListener(new View.OnClickListener() {
             @Override public void onClick(View v) {
-                Intent i = new Intent(TitlescreenActivity.this, FileBrowser.class);
+                Intent i = new Intent(TitlescreenActivity.this, FileBrowserActivity.class);
                 i.putExtra("actionType", "load_rom");
                 startActivity(i);
             }
@@ -339,5 +233,4 @@ public class TitlescreenActivity extends Activity {
             return true;
         }
     }*/
-
 }

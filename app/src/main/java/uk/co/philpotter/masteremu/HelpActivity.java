@@ -23,8 +23,7 @@ public class HelpActivity extends Activity {
     /**
      * This method sets the screen orientation when locked.
      */
-    @Override
-    protected void onStart() {
+    @Override protected void onStart() {
         super.onStart();
         if (OptionStore.orientation_lock) {
             if (OptionStore.orientation.equals("portrait")) {
@@ -40,8 +39,7 @@ public class HelpActivity extends Activity {
     /**
      * This method creates the help screen.
      */
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    @Override protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.help_activity);
 
@@ -80,8 +78,7 @@ public class HelpActivity extends Activity {
     /**
      * This method helps us to detect gamepad events and do the right thing with them.
      */
-    @Override
-    public boolean dispatchKeyEvent(KeyEvent event) {
+    @Override public boolean dispatchKeyEvent(KeyEvent event) {
         int action, keycode;
         action = event.getAction();
         keycode = event.getKeyCode();

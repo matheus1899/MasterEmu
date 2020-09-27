@@ -5,9 +5,8 @@
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/bg_ms_cover_portrait"
+    android:background="@drawable/bg_ms_cover_landscape"
     android:gravity="center">
-
     <TextView
         android:id="@+id/pause_txt_title"
         android:layout_width="wrap_content"
@@ -21,7 +20,6 @@
         app:layout_constraintBottom_toTopOf="@+id/pause_root"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
-
     <LinearLayout
         android:id="@+id/pause_root"
         android:layout_width="wrap_content"

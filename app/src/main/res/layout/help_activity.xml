@@ -1,27 +1,67 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/background_colour"
-    android:gravity="center_horizontal">
-
-    <TextView android:layout_width="wrap_content"
+    android:background="@drawable/bg_ms_cover_portrait">
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/help_h_guideline1"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textColor="@color/text_colour"
-        android:textStyle="bold"
-        android:textSize="24sp"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_begin="16dp" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/help_h_guideline2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_end="16dp" />
+
+    <TextView
+        android:id="@+id/help_txt_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="16dp"
         android:text="@string/help_header"
-        android:layout_marginBottom="5sp"
-        android:layout_marginTop="5sp"/>
+        android:textColor="#17569B"
+        android:textSize="22sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/help_second_root"
+        app:layout_constraintTop_toTopOf="@+id/help_h_guideline1" />
 
-    <TextView android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:scrollbars="vertical"
-        android:id="@+id/help_view"
-        android:textColor="@color/text_colour"
-        android:textSize="18sp"
-        android:gravity="left"
-        android:paddingLeft="5sp"
-        android:paddingRight="5sp"/>
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:elevation="4dp"
+        android:id="@+id/help_second_root"
+        android:layout_marginHorizontal="@dimen/default_margin_portrait"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:paddingVertical="4dp"
+        android:background="@drawable/teste_bg_highlight"
+        app:layout_constraintBottom_toBottomOf="@id/help_h_guideline2"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/help_txt_title">
 
-</LinearLayout>
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginEnd="2dp"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent">
+
+            <TextView
+                android:id="@+id/help_view"
+                android:textColor="@color/PrimaryLight"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="16dp"
+                android:textSize="18sp" />
+        </ScrollView>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -35,67 +35,13 @@ public class OptionsActivity extends Activity {
     @SuppressWarnings("deprecation") @Override protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.options_activity);
-        ButtonColourListener bcl = new ButtonColourListener();
-        //ControllerTextView options_apply_button = (ControllerTextView)findViewById(R.id.options_apply_button);
         Button btn_apply = findViewById(R.id.options_btn_apply);
-        btn_apply.setOnTouchListener(bcl);
-
-        // Load drawables for apply button
-        //Drawable light = null;
-        //Drawable dark = null;
-        //int lightText, darkText;
-        /*if (android.os.Build.VERSION.SDK_INT < Build.VERSION_CODES.M) {
-            lightText = getResources().getColor(R.color.text_colour);
-            darkText = getResources().getColor(R.color.text_greyed_out);
-        } else {
-            lightText = getResources().getColor(R.color.text_colour, null);
-            darkText = getResources().getColor(R.color.text_greyed_out, null);
-        }
-        if (android.os.Build.VERSION.SDK_INT < android.os.Build.VERSION_CODES.LOLLIPOP_MR1) {
-            dark = getResources().getDrawable(R.drawable.view_greyed_out_border);
-            light = getResources().getDrawable(R.drawable.view_border);
-        } else {
-            dark = getResources().getDrawable(R.drawable.view_greyed_out_border, null);
-            light = getResources().getDrawable(R.drawable.view_border, null);
-        }*/
-        /*options_apply_button.setActiveDrawable(dark);
-        options_apply_button.setInactiveDrawable(light);
-        options_apply_button.setHighlightedTextColour(darkText);
-        options_apply_button.setUnhighlightedTextColour(lightText);
-        ControllerCheckBox orientation_lock = (ControllerCheckBox)findViewById(R.id.orientation_lock);
-        ControllerCheckBox disable_sound = (ControllerCheckBox)findViewById(R.id.disable_sound);
-        ControllerCheckBox larger_buttons = (ControllerCheckBox)findViewById(R.id.larger_buttons);
-        ControllerCheckBox no_buttons = (ControllerCheckBox)findViewById(R.id.no_buttons);
-        ControllerCheckBox japanese_mode = (ControllerCheckBox)findViewById(R.id.japanese_mode);
-        ControllerCheckBox no_stretching = (ControllerCheckBox)findViewById(R.id.no_stretching);
-        ControllerCheckBox game_genie = (ControllerCheckBox)findViewById(R.id.game_genie);
-        orientation_lock.setActiveDrawable(dark);
-        disable_sound.setActiveDrawable(dark);
-        larger_buttons.setActiveDrawable(dark);
-        no_buttons.setActiveDrawable(dark);
-        japanese_mode.setActiveDrawable(dark);
-        no_stretching.setActiveDrawable(dark);
-        game_genie.setActiveDrawable(dark);*/
-
-        // Create selection object and add mappings to it.
-        /*options_apply_button.isOptions();
-        selectionObj = new ControllerSelection();
-        selectionObj.addMapping(orientation_lock);
-        selectionObj.addMapping(disable_sound);
-        selectionObj.addMapping(larger_buttons);
-        selectionObj.addMapping(no_buttons);
-        selectionObj.addMapping(japanese_mode);
-        selectionObj.addMapping(no_stretching);
-        selectionObj.addMapping(game_genie);
-        selectionObj.addMapping(options_apply_button);*/
-
-        // Set focus
-        //View options_title = findViewById(R.id.options_title);
-        //options_title.requestFocus();
-
-        // Set new MasterEmuMotionListener
-        //View options_root = findViewById(R.id.options_root);
-        //options_root.setOnGenericMotionListener(new MasterEmuMotionListener());
+        btn_apply.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                applySettings();
+            }
+        });
     }
     /**
      * This method restores the checkbox states amongst other things.

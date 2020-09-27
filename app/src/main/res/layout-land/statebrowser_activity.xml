@@ -6,7 +6,7 @@
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/bg_ms_cover_portrait"
+    android:background="@drawable/bg_ms_cover_landscape"
     android:gravity="center_horizontal">
 
     <androidx.constraintlayout.widget.Guideline
@@ -21,21 +21,21 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        app:layout_constraintGuide_end="@dimen/default_margin_portrait" />
+        app:layout_constraintGuide_end="@dimen/default_margin_landscape" />
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/statebrowser_v_guideline1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        app:layout_constraintGuide_begin="@dimen/default_margin_portrait" />
+        app:layout_constraintGuide_begin="@dimen/default_margin_landscape" />
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/statebrowser_v_guideline2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        app:layout_constraintGuide_end="@dimen/default_margin_portrait" />
+        app:layout_constraintGuide_end="@dimen/default_margin_landscape" />
 
     <TextView
         android:id="@+id/statebrowser_txt_title"

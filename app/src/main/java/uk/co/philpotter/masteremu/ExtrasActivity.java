@@ -14,6 +14,7 @@ import android.view.InputDevice;
 import android.view.KeyEvent;
 import android.view.MotionEvent;
 import android.view.View;
+import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.net.Uri;
@@ -26,19 +27,19 @@ import java.io.InputStreamReader;
  * This class acts as the extras screen of the app.
  */
 public class ExtrasActivity extends Activity {
-
     // define instance variables
     private ControllerSelection selectionObj;
     private long timeSinceLastAnaloguePress = 0;
+    private Button btn_WebSite;
+    private Button btn_GitHub_SourceCode;
 
     /**
      * This method creates the extras screen.
      */
-    @SuppressWarnings("deprecation")
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    @SuppressWarnings("deprecation") @Override protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.extras_activity);
+        setButtonsBehaviors();
 
         StringBuilder extrasText = new StringBuilder();
         String line = new String();
@@ -64,85 +65,15 @@ public class ExtrasActivity extends Activity {
             }
         }
 
-        TextView extrasView = (TextView)findViewById(R.id.extras_blurb);
+        TextView extrasView = findViewById(R.id.extras_view);
         extrasView.setText(extrasText);
-
-        ButtonColourListener bcl = new ButtonColourListener();
-        ControllerTextView extras_website_button = (ControllerTextView)findViewById(R.id.extras_website_button);
-        extras_website_button.setOnTouchListener(bcl);
-        ControllerTextView extras_source_button = (ControllerTextView)findViewById(R.id.extras_source_button);
-        extras_source_button.setOnTouchListener(bcl);
-
-        // Set all buttons to same width
-        int longest = 0;
-        extras_website_button.measure(View.MeasureSpec.UNSPECIFIED, View.MeasureSpec.UNSPECIFIED);
-        extras_source_button.measure(View.MeasureSpec.UNSPECIFIED, View.MeasureSpec.UNSPECIFIED);
-        if (extras_website_button.getMeasuredWidth() > longest)
-            longest = extras_website_button.getMeasuredWidth();
-        if (extras_source_button.getMeasuredWidth() > longest)
-            longest = extras_source_button.getMeasuredWidth();
-
-        extras_website_button.setLayoutParams(new LinearLayout.LayoutParams(longest, extras_website_button.getMeasuredHeight()));
-        extras_source_button.setLayoutParams(new LinearLayout.LayoutParams(longest, extras_website_button.getMeasuredHeight()));
-
-        // Load drawables for donate button
-        Drawable light = null;
-        Drawable dark = null;
-        int lightText, darkText;
-        if (android.os.Build.VERSION.SDK_INT < Build.VERSION_CODES.M) {
-            lightText = getResources().getColor(R.color.text_colour);
-            darkText = getResources().getColor(R.color.text_greyed_out);
-        } else {
-            lightText = getResources().getColor(R.color.text_colour, null);
-            darkText = getResources().getColor(R.color.text_greyed_out, null);
-        }
-        if (android.os.Build.VERSION.SDK_INT < android.os.Build.VERSION_CODES.LOLLIPOP_MR1) {
-            dark = getResources().getDrawable(R.drawable.view_greyed_out_border);
-            light = getResources().getDrawable(R.drawable.view_border);
-        } else {
-            dark = getResources().getDrawable(R.drawable.view_greyed_out_border, null);
-            light = getResources().getDrawable(R.drawable.view_border, null);
-        }
-        extras_website_button.setActiveDrawable(dark);
-        extras_website_button.setInactiveDrawable(light);
-        extras_website_button.setHighlightedTextColour(darkText);
-        extras_website_button.setUnhighlightedTextColour(lightText);
-        extras_source_button.setActiveDrawable(dark);
-        extras_source_button.setInactiveDrawable(light);
-        extras_source_button.setHighlightedTextColour(darkText);
-        extras_source_button.setUnhighlightedTextColour(lightText);
-
-        // Setup button intents and make sure to add extra info to do the right thing
-        Intent pottersoft_intent = new Intent(Intent.ACTION_VIEW);
-        String pottersoft_url = getResources().getString(R.string.pottersoft_url);
-        pottersoft_intent.setData(Uri.parse(pottersoft_url));
-        extras_website_button.setIntent(pottersoft_intent);
-        Intent source_intent = new Intent(Intent.ACTION_VIEW);
-        String source_url = getResources().getString(R.string.github_url);
-        source_intent.setData(Uri.parse(source_url));
-        extras_source_button.setIntent(source_intent);
-
-        // Create selection object and add mappings to it.
-        selectionObj = new ControllerSelection();
-        selectionObj.addMapping(extras_website_button);
-        selectionObj.addMapping(extras_source_button);
-
-        // Set focus
-        View extras_title = findViewById(R.id.extras_title);
-        extras_title.requestFocus();
-
-        // Set new MasterEmuMotionListener
-        View extras_root = findViewById(R.id.extras_root);
-        extras_root.setOnGenericMotionListener(new MasterEmuMotionListener());
     }
 
     /**
      * This method currently just keeps the orientation locked if necessary.
      */
-    @Override
-    protected void onStart() {
+    @Override protected void onStart() {
         super.onStart();
-
         // make sure screen orientation is set here if locked
         if (OptionStore.orientation_lock) {
             if (OptionStore.orientation.equals("portrait")) {
@@ -155,11 +86,32 @@ public class ExtrasActivity extends Activity {
         }
     }
 
+    private void setButtonsBehaviors(){
+        btn_WebSite = findViewById(R.id.extras_btn_phil_website);
+        btn_GitHub_SourceCode = findViewById(R.id.extras_btn_github_sourcecode);
+
+        btn_WebSite.setOnClickListener(new View.OnClickListener(){
+            @Override public void onClick(View view) {
+                Intent pottersoft_intent = new Intent(Intent.ACTION_VIEW);
+                String url = getResources().getString(R.string.pottersoft_url);
+                pottersoft_intent.setData(Uri.parse(url));
+                startActivity(pottersoft_intent);
+            }
+        });
+
+        btn_GitHub_SourceCode.setOnClickListener(new View.OnClickListener(){
+            @Override public void onClick(View view) {
+                Intent github_intent = new Intent(Intent.ACTION_VIEW);
+                String url = getResources().getString(R.string.github_url);
+                github_intent.setData(Uri.parse(url));
+                startActivity(github_intent);
+            }
+        });
+    }
     /**
      * This method helps us to detect gamepad events and do the right thing with them.
      */
-    @Override
-    public boolean dispatchKeyEvent(KeyEvent event) {
+    @Override public boolean dispatchKeyEvent(KeyEvent event) {
         int action, keycode;
         boolean returnVal = false;
         action = event.getAction();
@@ -233,38 +185,5 @@ public class ExtrasActivity extends Activity {
 
 
         return returnVal;
-    }
-
-    /**
-     * This inner class allows us to support joysticks with a listener.
-     */
-    protected class MasterEmuMotionListener implements View.OnGenericMotionListener {
-        @Override
-        public boolean onGenericMotion(View v, MotionEvent event) {
-            return ExtrasActivity.this.motionEvent(event);
-        }
-    }
-
-    /**
-     * This class allows us to animate a button.
-     */
-    protected class ButtonColourListener implements View.OnTouchListener {
-
-        /**
-         * This is the actual implementation code.
-         */
-        @Override
-        public boolean onTouch(View v, MotionEvent event) {
-
-            ControllerMapped cv = (ControllerMapped) v;
-            if (event.getAction() == MotionEvent.ACTION_DOWN) {
-                cv.highlight();
-            } else if (event.getAction() == MotionEvent.ACTION_UP) {
-                cv.unHighlight();
-                cv.activate();
-            }
-
-            return true;
-        }
     }
 }

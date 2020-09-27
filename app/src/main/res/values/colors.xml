@@ -15,6 +15,6 @@
     <color name="PrimaryLight">#5682CC</color>
     <color name="PrimaryDark">#15467E</color>
     <color name="ColorHighlight">@color/Primary</color>
-    <color name="ColorUnhighlight">#A0A0A0</color>
+    <color name="ColorUnhighlight">#CCC</color>
     <color name="Focused">#505050</color>
 </resources>

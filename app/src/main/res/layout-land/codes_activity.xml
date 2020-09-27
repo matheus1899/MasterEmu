@@ -5,7 +5,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/bg_ms_cover_portrait"
+    android:background="@drawable/bg_ms_cover_landscape"
     android:gravity="center_horizontal"
     tools:context=".CodesActivity">
     <androidx.constraintlayout.widget.Guideline
@@ -20,27 +20,27 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        app:layout_constraintGuide_end="80dp" />
+        app:layout_constraintGuide_end="@dimen/default_margin_landscape" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/codes_h_guideline3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.5" />
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/codes_v_guideline1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        app:layout_constraintGuide_begin="@dimen/default_margin_portrait" />
+        app:layout_constraintGuide_begin="@dimen/default_margin_landscape" />
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/codes_v_guideline2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        app:layout_constraintGuide_end="@dimen/default_margin_portrait" />
-
-    <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/codes_v_guideline3"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        app:layout_constraintGuide_percent="0.5" />
+        app:layout_constraintGuide_end="80dp" />
     <TextView
         android:id="@+id/codes_txt_title"
         android:layout_width="wrap_content"
@@ -76,10 +76,10 @@
         android:elevation="@dimen/default_elevation"
         android:focusable="true"
         android:src="@drawable/ic_add_24"
-        android:layout_marginEnd="@dimen/default_margin_portrait"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/codes_v_guideline3"
-        app:layout_constraintTop_toTopOf="@+id/codes_h_guideline2" />
+        android:layout_marginTop="@dimen/default_margin_landscape"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/codes_v_guideline2"
+        app:layout_constraintTop_toTopOf="@+id/codes_h_guideline3" />
 
     <ImageButton
         android:id="@+id/codes_btn_play"
@@ -90,10 +90,10 @@
         android:elevation="@dimen/default_elevation"
         android:focusable="true"
         android:src="@drawable/ic_play_arrow_24"
-        android:layout_marginStart="@dimen/default_margin_portrait"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="@+id/codes_v_guideline3"
-        app:layout_constraintTop_toTopOf="@+id/codes_h_guideline2" />
+        android:layout_marginBottom="@dimen/default_margin_landscape"
+        app:layout_constraintBottom_toTopOf="@+id/codes_h_guideline3"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/codes_v_guideline2" />
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/codes_root"

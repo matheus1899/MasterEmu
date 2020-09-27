@@ -1,140 +1,134 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@color/codes_dialogue_colour">
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@android:color/white"
+    android:orientation="vertical"
+    android:padding="16dp">
 
     <TextView
-        android:layout_width="match_parent"
+        android:id="@+id/codes_dialogue_title"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textColor="@color/text_colour"
-        android:textStyle="bold"
-        android:textSize="24sp"
+        android:gravity="center_horizontal"
         android:text="@string/codes_dialogue_header"
-        android:gravity="center_horizontal"/>
+        android:textColor="@color/Primary"
+        android:textSize="24sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <RadioGroup
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="25sp"
-        android:layout_marginBottom="25sp"
-        android:orientation="horizontal"
         android:id="@+id/codes_dialogue_button_group"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:checkedButton="@+id/codes_dialogue_ar_button"
         android:gravity="center_horizontal"
-        android:checkedButton="@+id/codes_dialogue_ar_button">
+        android:orientation="horizontal"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/codes_dialogue_title">
 
         <RadioButton
+            android:id="@+id/codes_dialogue_ar_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginRight="25sp"
+            android:layout_marginEnd="24dp"
             android:text="@string/codes_dialogue_type_ar"
-            android:textSize="18sp"
-            android:textColor="@color/text_colour"
-            android:id="@+id/codes_dialogue_ar_button"/>
+            android:textColor="@color/Primary"
+            android:textSize="18sp" />
 
         <RadioButton
+            android:id="@+id/codes_dialogue_gg_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/codes_dialogue_type_gg"
-            android:textSize="18sp"
-            android:textColor="@color/text_colour"
-            android:id="@+id/codes_dialogue_gg_button"/>
+            android:textColor="@color/Primary"
+            android:textSize="18sp" />
 
     </RadioGroup>
 
     <TextView
+        android:id="@+id/codes_dialogue_description_text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textStyle="bold"
-        android:textSize="18sp"
+        android:layout_marginTop="16dp"
         android:text="@string/codes_dialogue_description_header"
-        android:layout_marginLeft="18sp"
-        android:textColor="@color/text_colour"/>
-
-    <EditText android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:textColor="@color/Primary"
         android:textSize="18sp"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/codes_dialogue_button_group" />
+
+    <EditText
+        android:id="@+id/codes_dialogue_description_input"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
         android:inputType="textNoSuggestions"
-        android:layout_marginLeft="18sp"
-        android:layout_marginRight="18sp"
-        android:id="@+id/codes_dialogue_description_input"/>
+        android:textSize="18sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/codes_dialogue_description_text" />
 
     <TextView
-        android:layout_width="match_parent"
+        android:id="@+id/codes_dialogue_code_text"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textStyle="bold"
-        android:textSize="18sp"
-        android:text="@string/codes_dialogue_code_header"
-        android:textColor="@color/text_colour"
-        android:gravity="center_horizontal"/>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:id="@+id/codes_dialogue_ar_container"
-        android:gravity="center_horizontal">
-
-        <EditText
-            android:id="@+id/codes_dialogue_ar_code_input_1"
-            android:maxLength="4"
-            android:layout_width="72sp"
-            android:layout_height="wrap_content"
-            android:inputType="textNoSuggestions"
-            android:textSize="18sp"
-            android:layout_marginRight="9sp"/>
-
-        <EditText
-            android:id="@+id/codes_dialogue_ar_code_input_2"
-            android:maxLength="4"
-            android:layout_width="72sp"
-            android:layout_height="wrap_content"
-            android:inputType="textNoSuggestions"
-            android:textSize="18sp"
-            android:layout_marginLeft="9sp"/>
-
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
+        android:layout_marginTop="8dp"
         android:gravity="center_horizontal"
-        android:id="@+id/codes_dialogue_gg_container"
-        android:visibility="gone">
+        android:text="@string/codes_dialogue_code_header"
+        android:textColor="@color/Primary"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/codes_dialogue_description_input" />
 
-        <EditText
-            android:id="@+id/codes_dialogue_gg_code_input_1"
-            android:maxLength="3"
-            android:layout_width="54sp"
-            android:layout_height="wrap_content"
-            android:inputType="textNoSuggestions"
-            android:textSize="18sp"
-            android:layout_marginRight="9sp"/>
+    <EditText
+        android:id="@+id/codes_dialogue_code_input_1"
+        android:layout_width="72dp"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
+        android:digits="ABCDEFabcdef0123456789"
+        android:imeOptions="actionNext"
+        android:inputType="textNoSuggestions"
+        android:maxLength="4"
+        android:textSize="18sp"
+        app:layout_constraintEnd_toStartOf="@id/codes_dialogue_code_input_2"
+        app:layout_constraintTop_toBottomOf="@id/codes_dialogue_code_text" />
 
-        <EditText
-            android:id="@+id/codes_dialogue_gg_code_input_2"
-            android:maxLength="3"
-            android:layout_width="54sp"
-            android:layout_height="wrap_content"
-            android:inputType="textNoSuggestions"
-            android:textSize="18sp"
-            android:layout_marginLeft="9sp"
-            android:layout_marginRight="9sp"/>
+    <EditText
+        android:id="@+id/codes_dialogue_code_input_2"
+        android:layout_width="72dp"
+        android:layout_height="wrap_content"
+        android:digits="ABCDEFabcdef0123456789"
+        android:imeOptions="actionNext"
+        android:inputType="textNoSuggestions"
+        android:maxLength="3"
+        android:textSize="18sp"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="@+id/codes_dialogue_code_text"
+        app:layout_constraintStart_toStartOf="@+id/codes_dialogue_code_text"
+        app:layout_constraintTop_toBottomOf="@id/codes_dialogue_code_text" />
 
-        <EditText
-            android:id="@+id/codes_dialogue_gg_code_input_3"
-            android:maxLength="3"
-            android:layout_width="54sp"
-            android:layout_height="wrap_content"
-            android:inputType="textNoSuggestions"
-            android:textSize="18sp"
-            android:layout_marginLeft="9sp"/>
-
-    </LinearLayout>
-
-    <Space
-        android:layout_width="match_parent"
-        android:layout_height="18sp" />
-
-</LinearLayout>
+    <EditText
+        android:id="@+id/codes_dialogue_code_input_3"
+        android:layout_width="72dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:digits="ABCDEFabcdef0123456789"
+        android:imeOptions="actionDone"
+        android:inputType="textNoSuggestions"
+        android:maxLength="4"
+        android:textSize="18sp"
+        android:visibility="visible"
+        app:layout_constraintStart_toEndOf="@id/codes_dialogue_code_input_2"
+        app:layout_constraintTop_toBottomOf="@id/codes_dialogue_code_text" />
+</androidx.constraintlayout.widget.ConstraintLayout>

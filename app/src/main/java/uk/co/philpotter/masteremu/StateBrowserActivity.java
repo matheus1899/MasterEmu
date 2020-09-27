@@ -7,7 +7,6 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
-import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.content.res.Configuration;
 import android.os.Bundle;
@@ -29,8 +28,7 @@ import android.view.KeyEvent;
 /**
  * This class loads a save state and then exits.
  */
-public class StateBrowser extends Activity {
-
+public class StateBrowserActivity extends Activity {
     // define instance variables
     private long emulatorContainerPointer;
     private String checksumStr;
@@ -43,8 +41,7 @@ public class StateBrowser extends Activity {
     /**
      * This method sets the screen orientation when locked.
      */
-    @Override
-    protected void onStart() {
+    @Override protected void onStart() {
         super.onStart();
         if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT)
             setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
@@ -56,8 +53,7 @@ public class StateBrowser extends Activity {
      * This method saves the extra bundle and allows us to handle screen
      * reorientations properly.
      */
-    @Override
-    public void onSaveInstanceState(Bundle savedInstanceState) {
+    @Override public void onSaveInstanceState(Bundle savedInstanceState) {
         // transfer mappings
         Bundle extra = getIntent().getBundleExtra("MAIN_BUNDLE");
         savedInstanceState.putAll(extra);
@@ -66,8 +62,7 @@ public class StateBrowser extends Activity {
     /**
      * This method creates a list of all the save states and lets us select one.
      */
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    @Override protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.statebrowser_activity);
 
@@ -83,7 +78,7 @@ public class StateBrowser extends Activity {
         emulatorContainerPointer = ((0xFFFFFFFF00000000L & (higherAddress << 32)) | (0xFFFFFFFFL & lowerAddress));
         checksumStr = b.getString("CHECKSUM");
 
-        ListView lv = (ListView)findViewById(R.id.statelist);
+        ListView lv = (ListView)findViewById(R.id.statebrowser_list);
         pc = new PathClickListener();
         lv.setOnItemClickListener(pc);
         lv.setOnItemLongClickListener(pc);
@@ -122,11 +117,13 @@ public class StateBrowser extends Activity {
 
         Collections.sort(tempList);
 
+        TextView no_states_view = findViewById(R.id.statebrowser_no_states);
         if (tempList.size() == 0) {
-            TextView no_states_view = (TextView)findViewById(R.id.no_states_view);
+            no_states_view.setVisibility(View.VISIBLE);
             no_states_view.setText("No save states in this folder");
         } else {
-            ListView lv = (ListView) findViewById(R.id.statelist);
+            no_states_view.setVisibility(View.GONE);
+            ListView lv = (ListView) findViewById(R.id.statebrowser_list);
             lv.setAdapter(new FilesystemAdapter(this, tempList.toArray()));
         }
     }
@@ -146,7 +143,6 @@ public class StateBrowser extends Activity {
             this.filesAndFolders = filesAndFolders;
             this.inflater = LayoutInflater.from(c);
         }
-
         public void deleteFromList(File f) {
             for (int i = 0; i < filesAndFolders.length; ++i) {
                 if (f == filesAndFolders[i]) {
@@ -162,15 +158,10 @@ public class StateBrowser extends Activity {
             }
             notifyDataSetChanged();
         }
-
-        @Override
-        public int getCount() {
+        @Override public int getCount() {
             return filesAndFolders.length;
         }
-
-        @Override
-        public View getView(int position, View convertView, ViewGroup parent) {
-
+        @Override public View getView(int position, View convertView, ViewGroup parent) {
             View v = null;
             if (position < 0 || position > getCount() - 1)
                 return v;
@@ -187,17 +178,12 @@ public class StateBrowser extends Activity {
 
             return v;
         }
-
-        @Override
-        public long getItemId(int position) {
+        @Override public long getItemId(int position) {
             return position;
         }
-
-        @Override
-        public Object getItem(int position) {
+        @Override public Object getItem(int position) {
             return filesAndFolders[position];
         }
-
     }
 
     /**
@@ -205,18 +191,16 @@ public class StateBrowser extends Activity {
      * ListView.
      */
     private class PathClickListener implements AdapterView.OnItemClickListener,AdapterView.OnItemLongClickListener {
-        @Override
-        public void onItemClick(AdapterView av, View v, int position, long id) {
+        @Override public void onItemClick(AdapterView av, View v, int position, long id) {
             File file = (File)av.getItemAtPosition(position);
-            loadStateStub(StateBrowser.this.emulatorContainerPointer, file.getName());
+            loadStateStub(StateBrowserActivity.this.emulatorContainerPointer, file.getName());
         }
 
-        @Override
-        public boolean onItemLongClick(AdapterView av, View v, int position, long id) {
+        @Override public boolean onItemLongClick(AdapterView av, View v, int position, long id) {
             deletionHolder = (File)av.getItemAtPosition(position);
 
             // create dialogue
-            AlertDialog deleteMenu = new AlertDialog.Builder(StateBrowser.this).create();
+            AlertDialog deleteMenu = new AlertDialog.Builder(StateBrowserActivity.this).create();
             deleteMenu.setTitle("Deletion Prompt");
             deleteMenu.setMessage("Are you sure you want to delete " + deletionHolder.getName() + "?");
             DeletionListener dl = new DeletionListener();
@@ -238,46 +222,41 @@ public class StateBrowser extends Activity {
             case DialogInterface.BUTTON_POSITIVE:
                 if (deletionHolder != null) {
                     deletionHolder.delete();
-                    ListView lv = (ListView) findViewById(R.id.statelist);
+                    ListView lv = (ListView) findViewById(R.id.statebrowser_list);
                     FilesystemAdapter fsa = (FilesystemAdapter)lv.getAdapter();
                     fsa.deleteFromList(deletionHolder);
                     deletionHolder = null;
-                    StateBrowser.this.deleteStateSucceeded();
+                    StateBrowserActivity.this.deleteStateSucceeded();
                 } else {
-                    StateBrowser.this.deleteStateFailed();
+                    StateBrowserActivity.this.deleteStateFailed();
                 }
                 break;
             case DialogInterface.BUTTON_NEGATIVE:
-                StateBrowser.this.deleteStateCancelled();
+                StateBrowserActivity.this.deleteStateCancelled();
                 break;
             }
         }
     }
 
     public void deleteStateFailed() {
-        Toast failed = Toast.makeText(StateBrowser.this, "State deletion failed", Toast.LENGTH_SHORT);
-        failed.show();
+        Toast.makeText(StateBrowserActivity.this, "State deletion failed", Toast.LENGTH_SHORT).show();
     }
 
     public void deleteStateSucceeded() {
-        Toast success = Toast.makeText(StateBrowser.this, "State deleted", Toast.LENGTH_SHORT);
-        success.show();
+        Toast.makeText(StateBrowserActivity.this, "State deleted", Toast.LENGTH_SHORT).show();
     }
 
     public void deleteStateCancelled() {
-        Toast cancelled = Toast.makeText(StateBrowser.this, "State not deleted", Toast.LENGTH_SHORT);
-        cancelled.show();
+        Toast.makeText(StateBrowserActivity.this, "State not deleted", Toast.LENGTH_SHORT).show();
     }
 
     public void loadStateSucceeded() {
-        Toast success = Toast.makeText(StateBrowser.this, "Successfully loaded state", Toast.LENGTH_SHORT);
-        success.show();
+        Toast.makeText(StateBrowserActivity.this, "Successfully loaded state", Toast.LENGTH_SHORT).show();
         finish();
     }
 
     public void loadStateFailed() {
-        Toast failed = Toast.makeText(StateBrowser.this, "Failed to load state", Toast.LENGTH_SHORT);
-        failed.show();
+        Toast.makeText(StateBrowserActivity.this, "Failed to load state", Toast.LENGTH_SHORT).show();
         finish();
     }
 
@@ -285,8 +264,7 @@ public class StateBrowser extends Activity {
      * This method overrides the A and B buttons - it is just here to provide consistent behaviour on
      * versions of Android that are <= 4.2
      */
-    @Override
-    public boolean dispatchKeyEvent(KeyEvent event) {
+    @Override public boolean dispatchKeyEvent(KeyEvent event) {
         // Fetch the ListView object, so we can redirect requests there and utilise code sharing.
         boolean returnVal = false;
 
@@ -296,24 +274,22 @@ public class StateBrowser extends Activity {
                 returnVal = true;
                 finish();
             } else if (event.getKeyCode() == KeyEvent.KEYCODE_BUTTON_A) {
-                ListView l = (ListView)findViewById(R.id.statelist);
+                ListView l = (ListView)findViewById(R.id.statebrowser_list);
                 int position = l.getSelectedItemPosition();
                 if (position != AdapterView.INVALID_POSITION) {
                     pc.onItemClick(l, null, position, 0L);
                 }
                 returnVal = true;
             } else if (event.getKeyCode() == KeyEvent.KEYCODE_BUTTON_X) {
-                ListView l = (ListView)findViewById(R.id.statelist);
+                ListView l = (ListView)findViewById(R.id.statebrowser_list);
                 int position = l.getSelectedItemPosition();
                 if (position != AdapterView.INVALID_POSITION) {
                     pc.onItemLongClick(l, null, position, 0L);
                 }
             }
         }
-
         if (returnVal)
             return returnVal;
-
         return super.dispatchKeyEvent(event);
     }
 
