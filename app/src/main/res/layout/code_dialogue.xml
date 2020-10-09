@@ -10,16 +10,11 @@
 
     <TextView
         android:id="@+id/codes_dialogue_title"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:gravity="center_horizontal"
         android:text="@string/codes_dialogue_header"
-        android:textColor="@color/Primary"
-        android:textSize="24sp"
-        android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        style="@style/TextView_GenericPageTitle"/>
 
     <RadioGroup
         android:id="@+id/codes_dialogue_button_group"
@@ -32,7 +27,6 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/codes_dialogue_title">
-
         <RadioButton
             android:id="@+id/codes_dialogue_ar_button"
             android:layout_width="wrap_content"
@@ -41,7 +35,6 @@
             android:text="@string/codes_dialogue_type_ar"
             android:textColor="@color/Primary"
             android:textSize="18sp" />
-
         <RadioButton
             android:id="@+id/codes_dialogue_gg_button"
             android:layout_width="wrap_content"

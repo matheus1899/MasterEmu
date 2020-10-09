@@ -4,10 +4,7 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:background="@drawable/bg_ms_cover_landscape"
-    android:layout_gravity="center"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    style="@style/Layout_Landscape">
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/extras_h_guideline1"
@@ -24,13 +21,8 @@
 
     <TextView
         android:id="@+id/extras_txt_title"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="16dp"
+        style="@style/TextView_GenericPageTitle"
         android:text="@string/extras_header"
-        android:textColor="#17569B"
-        android:textSize="22sp"
-        android:textStyle="bold"
         app:layout_constraintTop_toTopOf="@id/extras_h_guideline1"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

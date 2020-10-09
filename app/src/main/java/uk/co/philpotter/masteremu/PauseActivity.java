@@ -26,12 +26,12 @@ public class PauseActivity extends Activity {
     private ControllerSelection selectionObj;
     private long timeSinceLastAnaloguePress = 0;
     private static final int sleepTime = 300;
+    private long resetTest;
 
     // native methods to call
     public native void saveStateStub(long emulatorContainerPointer, String fileName);
     public native void quitStub(long emulatorContainerPointer);
     public native void resizeAndAudioStub(long emulatorContainerPointer);
-
     /**
      * This method sets the screen orientation when locked.
      */
@@ -44,11 +44,7 @@ public class PauseActivity extends Activity {
                 setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
             }
         }
-        else {
-            setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_SENSOR);
-        }
     }
-
     /**
      * This returns to the title screen for us when back is pressed.
      */
@@ -62,7 +58,6 @@ public class PauseActivity extends Activity {
         }
         finish();
     }
-
     /**
      * This method saves the extra bundle and allows us to handle screen
      * reorientations properly.
@@ -72,7 +67,6 @@ public class PauseActivity extends Activity {
         Bundle extra = getIntent().getBundleExtra("MAIN_BUNDLE");
         savedInstanceState.putAll(extra);
     }
-
     /**
      * This method creates the pause screen.
      */
@@ -121,6 +115,9 @@ public class PauseActivity extends Activity {
         switch(view.getId()){
             case R.id.pause_resume_button:
                 finish();
+                break;
+            case R.id.pause_reset_button:
+
                 break;
             case R.id.pause_loadstate_button:
                 Intent loadStateIntent = new Intent(this, StateBrowserActivity.class);

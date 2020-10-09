@@ -6,19 +6,11 @@
     android:padding="4dp"
     android:orientation="vertical"
     android:layout_gravity="start|center_horizontal"
-
     android:gravity="center">
     <ImageView
         android:layout_height="wrap_content"
         android:layout_width="wrap_content"
         android:id="@+id/folder_icon"
         android:src="@drawable/ic_folder" />
-    <TextView
-        android:layout_height="match_parent"
-        android:layout_width="match_parent"
-        android:layout_marginHorizontal="4dp"
-        android:gravity="center_horizontal"
-        android:maxLines="2"
-        android:textColor="#15467E"
-        android:textSize="12sp" />
+    <TextView style="@style/TextViewItemFolder" />
 </LinearLayout>

@@ -31,8 +31,6 @@ public class HelpActivity extends Activity {
             } else if (OptionStore.orientation.equals("landscape")) {
                 setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
             }
-        } else {
-            setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_SENSOR);
         }
     }
 

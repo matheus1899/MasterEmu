@@ -17,4 +17,8 @@
     <color name="ColorHighlight">@color/Primary</color>
     <color name="ColorUnhighlight">#CCC</color>
     <color name="Focused">#505050</color>
+
+    <color name="MainTextColor">@color/Primary</color>
+    <color name="LightTextColor">@color/PrimaryLight</color>
+    <color name="DarkTextColor">@color/PrimaryDark</color>
 </resources>

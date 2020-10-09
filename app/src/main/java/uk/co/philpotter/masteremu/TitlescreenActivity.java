@@ -43,9 +43,6 @@ public class TitlescreenActivity extends Activity {
                 setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
             }
         }
-        else {
-            setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_SENSOR);
-        }
     }
 
     /**
@@ -80,46 +77,44 @@ public class TitlescreenActivity extends Activity {
         ImageButton imgBtn_ManageStates = findViewById(R.id.title_imgBtn_ManageStates);
         ImageButton imgBtn_Exit = findViewById(R.id.title_imgBtn_Exit);
 
-        imgBtn_LoadROM.setOnClickListener(new View.OnClickListener() {
-            @Override public void onClick(View v) {
-                Intent i = new Intent(TitlescreenActivity.this, FileBrowserActivity.class);
-                i.putExtra("actionType", "load_rom");
-                startActivity(i);
-            }
-        });
+        TitleScreenButtonBehaviors listener = new TitleScreenButtonBehaviors();
 
-        imgBtn_Options.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startActivity(new Intent(TitlescreenActivity.this, OptionsActivity.class));
+        imgBtn_LoadROM.setOnClickListener(listener);
+        imgBtn_Options.setOnClickListener(listener);
+        imgBtn_Help.setOnClickListener(listener);
+        imgBtn_Credits.setOnClickListener(listener);
+        imgBtn_Extras.setOnClickListener(listener);
+        imgBtn_ManageStates.setOnClickListener(listener);
+        imgBtn_Exit.setOnClickListener(listener);
+    }
+    class TitleScreenButtonBehaviors implements View.OnClickListener{
+        @Override public void onClick(View view) {
+            switch (view.getId()){
+                case R.id.title_imgBtn_LoadROM:
+                    Intent i = new Intent(TitlescreenActivity.this, FileBrowserActivity.class);
+                    i.putExtra("actionType", "load_rom");
+                    startActivity(i);
+                    break;
+                case R.id.title_imgBtn_Options:
+                    startActivity(new Intent(TitlescreenActivity.this, OptionsActivity.class));
+                    break;
+                case R.id.title_imgBtn_Help:
+                    startActivity(new Intent(TitlescreenActivity.this, HelpActivity.class));
+                    break;
+                case R.id.title_imgBtn_Credits:
+                    startActivity(new Intent(TitlescreenActivity.this, CreditsActivity.class));
+                    break;
+                case R.id.title_imgBtn_Extras:
+                    startActivity(new Intent(TitlescreenActivity.this, ExtrasActivity.class));
+                    break;
+                case R.id.title_imgBtn_ManageStates:
+                    startActivity(new Intent(TitlescreenActivity.this, ManageStatesActivity.class));
+                    break;
+                case R.id.title_imgBtn_Exit:
+                    finish();
+                    break;
             }
-        });
-
-        imgBtn_Help.setOnClickListener(new View.OnClickListener() {
-            @Override public void onClick(View v) {
-                startActivity(new Intent(TitlescreenActivity.this, HelpActivity.class));
-            }
-        });
-        imgBtn_Credits.setOnClickListener(new View.OnClickListener() {
-            @Override public void onClick(View v) {
-                startActivity(new Intent(TitlescreenActivity.this, CreditsActivity.class));
-            }
-        });
-        imgBtn_Extras.setOnClickListener(new View.OnClickListener() {
-            @Override public void onClick(View v) {
-                startActivity(new Intent(TitlescreenActivity.this, ExtrasActivity.class));
-            }
-        });
-        imgBtn_ManageStates.setOnClickListener(new View.OnClickListener() {
-            @Override public void onClick(View v) {
-                startActivity(new Intent(TitlescreenActivity.this, ManageStatesActivity.class));
-            }
-        });
-        imgBtn_Exit.setOnClickListener(new View.OnClickListener() {
-            @Override public void onClick(View v) {
-                finish();
-            }
-        });
+        }
     }
     /**
      * This method helps us to detect gamepad events and do the right thing with them.

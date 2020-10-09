@@ -95,9 +95,6 @@ public class FileBrowserActivity extends Activity {
                 setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
             }
         }
-        else {
-            setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_SENSOR);
-        }
     }
     /**
      * This method creates the layout (header + file grid).

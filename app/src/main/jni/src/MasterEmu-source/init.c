@@ -18,7 +18,7 @@ static void handleWindowResize(EmuBundle *eb, SDL_Collection s);
 static void stopLogicThread(EmuBundle *eb);
 static void startLogicThread(EmuBundle *eb);
 JNIEXPORT void JNICALL Java_uk_co_philpotter_masteremu_PauseActivity_saveStateStub(JNIEnv *, jobject, jlong, jstring);
-JNIEXPORT void JNICALL Java_uk_co_philpotter_masteremu_StateBrowser_loadStateStub(JNIEnv *, jobject, jlong, jstring);
+JNIEXPORT void JNICALL Java_uk_co_philpotter_masteremu_StateBrowserActivity_loadStateStub(JNIEnv *, jobject, jlong, jstring);
 JNIEXPORT void JNICALL Java_uk_co_philpotter_masteremu_PauseActivity_quitStub(JNIEnv *, jobject, jlong);
 JNIEXPORT void JNICALL Java_uk_co_philpotter_masteremu_SDLActivity_onMasterEmuDown(JNIEnv *, jclass, jint);
 JNIEXPORT void JNICALL Java_uk_co_philpotter_masteremu_SDLActivity_onMasterEmuUp(JNIEnv *, jclass, jint);
@@ -416,7 +416,7 @@ JNIEXPORT void JNICALL Java_uk_co_philpotter_masteremu_PauseActivity_saveStateSt
 }
 
 /* this function allows us to load the state from the Java side */
-JNIEXPORT void JNICALL Java_uk_co_philpotter_masteremu_StateBrowser_loadStateStub(JNIEnv *env, jobject obj, jlong emulatorContainerPointer, jstring fileName)
+JNIEXPORT void JNICALL Java_uk_co_philpotter_masteremu_StateBrowserActivity_loadStateStub(JNIEnv *env, jobject obj, jlong emulatorContainerPointer, jstring fileName)
 {
     /* create compatible string */
     char *cFileName = (char *)(*env)->GetStringUTFChars(env, fileName, NULL);

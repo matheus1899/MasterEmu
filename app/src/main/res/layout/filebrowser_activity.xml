@@ -2,18 +2,12 @@
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@drawable/bg_ms_cover_portrait"
+    style="@style/Layout_Portrait"
     android:gravity="center_horizontal">
     <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:layout_marginBottom="8dp"
-        android:textColor="#17569B"
-        android:textStyle="bold"
-        android:textSize="24sp"
+        style="@style/TextView_GenericPageTitle"
+        android:layout_marginTop="8dp"
+        android:layout_marginBottom="4dp"
         android:text="@string/filebrowser_header"
         android:id="@+id/filebrowser_header"
         android:gravity="center_horizontal" />

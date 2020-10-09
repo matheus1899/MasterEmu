@@ -3,4 +3,6 @@
     <dimen name="default_margin_portrait">16dp</dimen>
     <dimen name="default_margin_landscape">24dp</dimen>
     <dimen name="default_elevation">4dp</dimen>
+    <dimen name="titlescreen_width_textview_portrait">120dp</dimen>
+    <dimen name="titlescreen_width_textview_landscape">150dp</dimen>
 </resources>

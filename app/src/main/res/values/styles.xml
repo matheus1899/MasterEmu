@@ -1,9 +1,113 @@
 <resources>
-    <style
-        name="AppTheme"
-        parent="android:Theme.Material.Light.NoActionBar.Fullscreen">
+    <style name="AppTheme" parent="android:Theme.Material.Light.NoActionBar.Fullscreen">
         <item name="android:colorPrimary">@color/Primary</item>
         <item name="android:colorPrimaryDark">@color/PrimaryDark</item>
         <item name="android:colorAccent">@color/Primary</item>
+    </style>
+    <style name="TitleScreen_ImageButton">
+        <item name="android:layout_width">90dp</item>
+        <item name="android:layout_height">90dp</item>
+        <item name="android:elevation">4dp</item>
+        <item name="android:background">@drawable/titlescreen_button_states</item>
+    </style>
+    <style name="TitleScreen_TextView_of_ImageButton" parent="TextViewPrimaryBase">
+        <item name="android:maxLines">2</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:textSize">16sp</item>
+        <item name="android:textAlignment">center</item>
+        <item name="android:gravity">center_horizontal</item>
+        <item name="android:textAllCaps">true</item>
+        <item name="android:layout_height">55dp</item>
+    </style>
+    <style name="TextView_Titlescreen_AppName" parent="TextViewPrimaryBase">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:text">@string/app_name</item>
+        <item name="android:layout_marginStart">8dp</item>
+        <item name="android:background">#77FFFFFF</item>
+        <item name="android:textSize">26sp</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+    <style name="Layout_Portrait">
+        <item name="android:background">@drawable/bg_ms_cover_portrait</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">match_parent</item>
+    </style>
+    <style name="Layout_Landscape">
+        <item name="android:background">@drawable/bg_ms_cover_landscape</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">match_parent</item>
+    </style>
+
+    <style name="TextViewPrimaryBase">
+        <item name="android:textColor">@color/MainTextColor</item>
+    </style>
+    <style name="TextViewPrimaryLightBase">
+        <item name="android:textColor">@color/LightTextColor</item>
+    </style>
+    <style name="TextViewPrimaryDarkBase">
+        <item name="android:textColor">@color/DarkTextColor</item>
+    </style>
+
+    <style name="TextViewItemFile" parent="TextViewPrimaryDarkBase">
+        <item name="android:layout_height">match_parent</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:gravity">center_horizontal</item>
+        <item name="android:maxLines">3</item>
+        <item name="android:textSize">12sp</item>
+    </style>
+    <style name="TextViewItemFolder" parent="TextViewPrimaryDarkBase">
+        <item name="android:layout_height">match_parent</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:gravity">center_horizontal</item>
+        <item name="android:maxLines">2</item>
+        <item name="android:textColor">#15467E</item>
+        <item name="android:textSize">12sp</item>
+    </style>
+    <style name="TextView_Options" parent="TextViewPrimaryBase">
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginTop">12dp</item>
+        <item name="android:textSize">18sp</item>
+    </style>
+    <style name="TextView_GenericPageTitle" parent="TextViewPrimaryBase">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginTop">16dp</item>
+        <item name="android:layout_marginBottom">16dp</item>
+        <item name="android:textSize">22sp</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
+    <style name="Button_CheatCodes">
+        <item name="android:layout_width">56dp</item>
+        <item name="android:layout_height">56dp</item>
+        <item name="android:background">@drawable/default_fab_background</item>
+        <item name="android:clickable">true</item>
+        <item name="android:elevation">@dimen/default_elevation</item>
+        <item name="android:focusable">true</item>
+    </style>
+
+    <style name="Button_Pause">
+        <item name="android:layout_width">200dp</item>
+        <item name="android:focusable">true</item>
+        <item name="android:elevation">4dp</item>
+        <item name="android:layout_marginBottom">8dp</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_gravity">center_horizontal</item>
+        <item name="android:background">@drawable/default_button_states</item>
+        <item name="android:textColor">@color/MainTextColor</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
+    <style name="TextViewSetDefaultDirectory">
+        <item name="android:layout_height">match_parent</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_marginStart">4dp</item>
+        <item name="android:layout_marginEnd">4dp</item>
+        <item name="android:gravity">center_horizontal</item>
+        <item name="android:maxLines">2</item>
+        <item name="android:textColor">@color/DarkTextColor</item>
+        <item name="android:textSize">12sp</item>
     </style>
 </resources>

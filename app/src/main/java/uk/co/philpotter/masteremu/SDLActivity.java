@@ -148,8 +148,6 @@ public class SDLActivity extends Activity {
             } else if (OptionStore.orientation.equals("landscape")) {
                 setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
             }
-        } else {
-            setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_SENSOR);
         }
     }
 
@@ -288,12 +286,14 @@ public class SDLActivity extends Activity {
     @Override protected void onResume() {
         Log.v(TAG, "onResume()");
         super.onResume();
-        View decorView = getWindow().getDecorView();
-        int opt = View.SYSTEM_UI_FLAG_HIDE_NAVIGATION | View.SYSTEM_UI_FLAG_FULLSCREEN | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY | View.SYSTEM_UI_FLAG_LOW_PROFILE;
-        decorView.setSystemUiVisibility(opt);
+        int opt = View.SYSTEM_UI_FLAG_HIDE_NAVIGATION |
+                View.SYSTEM_UI_FLAG_FULLSCREEN |
+                View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY |
+                View.SYSTEM_UI_FLAG_LOW_PROFILE |
+                View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN;
+        getWindow().getDecorView().setSystemUiVisibility(opt);
         mNextNativeState = NativeState.RESUMED;
         mIsResumedCalled = true;
-
         if (SDLActivity.mBrokenLibraries) {
            return;
         }

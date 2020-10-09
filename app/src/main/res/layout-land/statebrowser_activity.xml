@@ -3,53 +3,38 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:orientation="vertical"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@drawable/bg_ms_cover_landscape"
-    android:gravity="center_horizontal">
-
+    style="@style/Layout_Landscape">
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/statebrowser_h_guideline1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         app:layout_constraintGuide_begin="64dp" />
-
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/statebrowser_h_guideline2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         app:layout_constraintGuide_end="@dimen/default_margin_landscape" />
-
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/statebrowser_v_guideline1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="vertical"
         app:layout_constraintGuide_begin="@dimen/default_margin_landscape" />
-
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/statebrowser_v_guideline2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="vertical"
         app:layout_constraintGuide_end="@dimen/default_margin_landscape" />
-
     <TextView
         android:id="@+id/statebrowser_txt_title"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
         android:text="@string/statebrowser_header"
-        android:layout_marginBottom="16dp"
-        android:textColor="@color/Primary"
-        android:textSize="22sp"
-        android:textStyle="bold"
         app:layout_constraintBottom_toTopOf="@+id/statebrowser_root"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        style="@style/TextView_GenericPageTitle"/>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/statebrowser_root"

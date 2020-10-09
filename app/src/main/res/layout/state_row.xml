@@ -9,7 +9,7 @@
     <TextView
         android:layout_height="wrap_content"
         android:layout_width="match_parent"
-        android:textColor="@color/PrimaryDark"
+        style="@style/TextViewPrimaryDarkBase"
         android:textSize="18sp"
         android:gravity="center_horizontal"
         android:paddingBottom="4dp"

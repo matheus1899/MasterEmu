@@ -3,11 +3,7 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@drawable/bg_ms_cover_landscape"
-    android:gravity="center_horizontal"
-    tools:context=".CodesActivity">
+    style="@style/Layout_Landscape">
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/codes_h_guideline1"
         android:layout_width="wrap_content"
@@ -43,14 +39,8 @@
         app:layout_constraintGuide_end="80dp" />
     <TextView
         android:id="@+id/codes_txt_title"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
+        style="@style/TextView_GenericPageTitle"
         android:text="@string/codes_header"
-        android:layout_marginBottom="16dp"
-        android:textColor="@color/Primary"
-        android:textSize="22sp"
-        android:textStyle="bold"
         app:layout_constraintBottom_toTopOf="@+id/codes_root"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
@@ -66,35 +56,22 @@
         app:layout_constraintBottom_toBottomOf="@id/codes_txt_title"
         app:layout_constraintEnd_toEndOf="@id/codes_v_guideline2"
         app:layout_constraintTop_toTopOf="@id/codes_txt_title" />
-
-    <ImageButton
-        android:id="@+id/codes_btn_add"
-        android:layout_width="56dp"
-        android:layout_height="56dp"
-        android:background="@drawable/default_fab_background"
-        android:clickable="true"
-        android:elevation="@dimen/default_elevation"
-        android:focusable="true"
-        android:src="@drawable/ic_add_24"
-        android:layout_marginTop="@dimen/default_margin_landscape"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="@+id/codes_v_guideline2"
-        app:layout_constraintTop_toTopOf="@+id/codes_h_guideline3" />
-
     <ImageButton
         android:id="@+id/codes_btn_play"
-        android:layout_width="56dp"
-        android:layout_height="56dp"
-        android:background="@drawable/default_fab_background"
-        android:clickable="true"
-        android:elevation="@dimen/default_elevation"
-        android:focusable="true"
         android:src="@drawable/ic_play_arrow_24"
         android:layout_marginBottom="@dimen/default_margin_landscape"
         app:layout_constraintBottom_toTopOf="@+id/codes_h_guideline3"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="@+id/codes_v_guideline2" />
-
+        app:layout_constraintStart_toStartOf="@+id/codes_v_guideline2"
+        style="@style/Button_CheatCodes" />
+    <ImageButton
+        android:id="@+id/codes_btn_add"
+        android:src="@drawable/ic_add_24"
+        android:layout_marginTop="@dimen/default_margin_landscape"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/codes_v_guideline2"
+        app:layout_constraintTop_toTopOf="@+id/codes_h_guideline3"
+        style="@style/Button_CheatCodes"/>
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/codes_root"
         android:layout_width="0dp"

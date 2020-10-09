@@ -3,11 +3,7 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:orientation="vertical"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@drawable/bg_ms_cover_portrait"
-    android:gravity="center_horizontal">
+    style="@style/Layout_Portrait">
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/statebrowser_h_guideline1"
@@ -39,17 +35,11 @@
 
     <TextView
         android:id="@+id/statebrowser_txt_title"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
         android:text="@string/statebrowser_header"
-        android:layout_marginBottom="16dp"
-        android:textColor="@color/Primary"
-        android:textSize="22sp"
-        android:textStyle="bold"
         app:layout_constraintBottom_toTopOf="@+id/statebrowser_root"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        style="@style/TextView_GenericPageTitle"/>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/statebrowser_root"

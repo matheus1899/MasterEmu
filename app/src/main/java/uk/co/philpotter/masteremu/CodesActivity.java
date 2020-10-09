@@ -63,17 +63,20 @@ public class CodesActivity extends Activity {
     private ImageButton btn_help;
     private ImageButton btn_play;
     private CodesButtonsBehaviors listener;
-    private View topBar;
+    //private View topBar;
 
     /**
      * This method sets the screen orientation when locked, and loads the actual codes.
      */
     @Override protected void onStart() {
         super.onStart();
-        if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT)
-            setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
-        else
-            setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
+        if (OptionStore.orientation_lock) {
+            if (OptionStore.orientation.equals("portrait")) {
+                setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+            } else if (OptionStore.orientation.equals("landscape")) {
+                setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
+            }
+        }
     }
 
     /**
@@ -97,7 +100,7 @@ public class CodesActivity extends Activity {
         }
 
         initialConfigs();
-        //checksumStr = FileBrowser.transferChecksum;
+        checksumStr = FileBrowserActivity.transferChecksum;
 
         //topBar = findViewById(R.id.codes_topbar_view);
         //topListener = new TopListener();

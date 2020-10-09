@@ -12,12 +12,5 @@
         android:layout_width="wrap_content"
         android:id="@+id/bookmark_icon"
         android:src="@drawable/ic_set_default_folder" />
-    <TextView
-        android:layout_height="match_parent"
-        android:layout_width="match_parent"
-        android:layout_marginHorizontal="4dp"
-        android:gravity="center_horizontal"
-        android:maxLines="2"
-        android:textColor="#15467E"
-        android:textSize="12sp" />
+    <TextView style="@style/TextViewSetDefaultDirectory" />
 </LinearLayout>

@@ -12,12 +12,5 @@
         android:layout_width="wrap_content"
         android:id="@+id/file_icon"
         android:src="@drawable/ic_file" />
-    <TextView
-        android:layout_height="match_parent"
-        android:layout_width="match_parent"
-        android:layout_marginHorizontal="4dp"
-        android:gravity="center_horizontal"
-        android:maxLines="3"
-        android:textColor="@color/PrimaryDark"
-        android:textSize="12sp" />
+    <TextView style="@style/TextViewItemFile"/>
 </LinearLayout>
