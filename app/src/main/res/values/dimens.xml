@@ -5,4 +5,6 @@
     <dimen name="default_elevation">4dp</dimen>
     <dimen name="titlescreen_width_textview_portrait">120dp</dimen>
     <dimen name="titlescreen_width_textview_landscape">150dp</dimen>
+    <integer name="default_portrait_span_count">4</integer>
+    <integer name="default_landscape_span_count">6</integer>
 </resources>

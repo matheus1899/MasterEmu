@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:orientation="vertical"
     style="@style/Layout_Landscape"
     android:gravity="center_horizontal">
@@ -53,31 +55,24 @@
         android:layout_marginVertical="8dp"
         android:layout_marginHorizontal="16dp"
         android:id="@+id/search_area">
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textColor="#17569B"
-            android:textStyle="bold"
-            android:textSize="18sp"
-            android:text="@string/filebrowser_search"
-            android:layout_marginEnd="8dp"/>
         <EditText
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textSize="14sp"
             android:textColor="#17569B"
-            android:background="@drawable/bg_search_edt_txt"
+            android:hint="@string/filebrowser_search"
+            android:background="@drawable/bg_search_edt_txt_states"
             android:paddingHorizontal="12dp"
             android:paddingVertical="8dp"
             android:inputType="textNoSuggestions"
             android:id="@+id/search_text"/>
     </LinearLayout>
-    <uk.co.philpotter.masteremu.EmuGridView
-        android:layout_marginHorizontal="16dp"
-        android:id="@+id/filegrid"
-        android:layout_height="match_parent"
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/file_browser_activity_recycler_view"
         android:layout_width="match_parent"
-        android:numColumns="auto_fit"
-        android:columnWidth="90dp"
-        android:listSelector="@color/selector_colour"/>
+        android:layout_height="match_parent"
+        app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
+        app:spanCount="@integer/default_landscape_span_count"
+        tools:listitem="@layout/file_browser_item_list"
+        />
 </LinearLayout>

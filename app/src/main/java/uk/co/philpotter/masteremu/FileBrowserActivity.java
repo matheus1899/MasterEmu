@@ -14,13 +14,8 @@ import java.io.File;
 import android.os.Environment;
 
 import android.view.KeyEvent;
-import android.widget.BaseAdapter;
-import android.content.Context;
 import android.view.View;
-import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.TextView;
-import android.view.LayoutInflater;
 import android.widget.LinearLayout;
 import android.widget.EditText;
 import android.text.TextWatcher;
@@ -29,8 +24,6 @@ import android.text.Editable;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.util.ArrayList;
-import android.content.Intent;
-import android.widget.AdapterView;
 import java.io.IOException;
 import android.util.Log;
 
@@ -43,13 +36,13 @@ import java.io.FileWriter;
 import java.util.Date;
 import java.util.zip.ZipFile;
 import java.util.zip.ZipEntry;
-import java.util.zip.CRC32;
 import java.util.Enumeration;
 
 import android.Manifest;
 import androidx.core.content.ContextCompat;
 import android.content.pm.PackageManager;
 import androidx.core.app.ActivityCompat;
+import androidx.recyclerview.widget.RecyclerView;
 
 /**
  * This class implements a file browser to allow the user
@@ -60,7 +53,7 @@ public class FileBrowserActivity extends Activity {
 
     // constant for storage permission request
     private static final int FILEBROWSER_READ_STORAGE_REQUEST = 0;
-    private static final int FILEBROWSER_WRITE_STORAGE_REQUEST = 1;
+    public static final int FILEBROWSER_WRITE_STORAGE_REQUEST = 1;
 
     // static variable for passing RomData object to SDL, and checksum to codes activity
     public static RomData transferData = null;
@@ -69,18 +62,18 @@ public class FileBrowserActivity extends Activity {
     // define instance variables
     private String internalStorageRoot = System.getenv("EXTERNAL_STORAGE");
     private String externalStorageRoot = System.getenv("SECONDARY_STORAGE");
-    private String defaultFilePath;
-    private String thisDirPath;
-    private String importPath;
+    public String defaultFilePath;
+    public String thisDirPath;
+    public String importPath;
     private String currentPath = "";
     private String pathToLoad;
     private ControllerSelection selectionObj;
     private StorageClickListener sc;
-    private PathClickListener pc;
-    private String actionType;
-    private EmuGridView gridView;
-    private volatile boolean romClicked;
+    public String actionType;
+    public volatile boolean romClicked;
     private boolean firstPopulation;
+    private RecyclerView recyclerView;
+    private FileBrowserAdapter adapter;
 
     /**
      * This method sets the screen orientation when locked.
@@ -106,7 +99,7 @@ public class FileBrowserActivity extends Activity {
         firstPopulation = true;
         romClicked = false;
         actionType = getIntent().getStringExtra("actionType");
-        setContentView(R.layout.filebrowser_activity);
+        setContentView(R.layout.file_browser_activity);
         if (actionType.equals("import_states")) {
             TextView managestatesView = (TextView) findViewById(R.id.filebrowser_header);
             managestatesView.setText(getResources().getString(R.string.filebrowser_header_import_states));
@@ -129,9 +122,7 @@ public class FileBrowserActivity extends Activity {
         thisDirPath = getFilesDir() + "/this_dir";
         ControllerTextView internal = findViewById(R.id.internal_view);
         ControllerTextView external = findViewById(R.id.external_view);
-        gridView = findViewById(R.id.filegrid);
-        pc = new PathClickListener();
-        gridView.setOnItemClickListener(pc);
+        recyclerView = findViewById(R.id.file_browser_activity_recycler_view);
         sc = new StorageClickListener();
         internal.setOnClickListener(sc);
         external.setOnClickListener(sc);
@@ -235,21 +226,21 @@ public class FileBrowserActivity extends Activity {
     @Override public void onRequestPermissionsResult (int requestCode, String[] permissions, int[] grantResults) {
         switch (requestCode) {
             case FILEBROWSER_READ_STORAGE_REQUEST:
-                if (grantResults.length > 0
-                        && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                     // permission granted, load grid as normal
                     populateFileGrid(pathToLoad);
-                } else {
+                }
+                else {
                     // permission denied
                     finish();
                 }
                 break;
             case FILEBROWSER_WRITE_STORAGE_REQUEST:
-                if (grantResults.length > 0
-                        && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                     // permission granted, load grid as normal
                     exportMethod();
-                } else {
+                }
+                else {
                     // permission denied
                     finish();
                 }
@@ -263,17 +254,18 @@ public class FileBrowserActivity extends Activity {
     @Override public void onSaveInstanceState(Bundle savedInstanceState) {
         // Save current path
         savedInstanceState.putString("CURRENT_PATH", currentPath);
-        if (currentPath.contains(internalStorageRoot))
+        if (currentPath.contains(internalStorageRoot)) {
             savedInstanceState.putString("STORAGE_TYPE", "INTERNAL");
-        else
+        }
+        else {
             savedInstanceState.putString("STORAGE_TYPE", "EXTERNAL");
+        }
     }
     /**
      * This method finds all files and folders in the supplied path
      * and populates the grid with them.
      */
     public void populateFileGrid(String path) {
-
         // set things up if we are in rom loader mode
         String toCompareAgainst = null;
         if (actionType.equals("load_rom")) {
@@ -294,8 +286,7 @@ public class FileBrowserActivity extends Activity {
                 currentPath = f.getCanonicalPath();
             }
             catch (IOException e) {
-                Toast error = Toast.makeText(FileBrowserActivity.this, "Can't open zip file, possibly corrupted", Toast.LENGTH_SHORT);
-                error.show();
+                showMessage("Can't open zip file, possibly corrupted");
                 return;
             }
 
@@ -312,34 +303,35 @@ public class FileBrowserActivity extends Activity {
                 boolean searchStrNotEmpty = !toCompareAgainst.isEmpty();
                 boolean fileMatches = nameToCompareAgainst.contains(toCompareAgainst.toLowerCase().trim());
                 if (!ze.isDirectory() && (name.endsWith(".gg") || name.endsWith(".sms"))) {
-                    if (!searchStrNotEmpty)
+                    if (!searchStrNotEmpty) {
                         tempList.add(new EmuFile(ze, zf));
-                    else if (fileMatches)
+                    }
+                    else if (fileMatches) {
                         tempList.add(new EmuFile(ze, zf));
+                    }
                 }
             }
-
             // sort entries
             Collections.sort(tempList);
             EmuFile parent = new EmuFile(f.getParent());
             parent.setParent();
             tempList.add(0, parent);
-
-        } else {
-
+        }
+        else {
             File[] tempFileArray = f.listFiles();
             EmuFile[] tempEmuFileArray = null;
             try {
                 tempEmuFileArray = new EmuFile[tempFileArray.length];
-            } catch (NullPointerException e) {
-                Toast error = Toast.makeText(FileBrowserActivity.this, "Can't open this, probably not mounted", Toast.LENGTH_SHORT);
-                error.show();
+            }
+            catch (NullPointerException e) {
+                showMessage("Can't open this, probably not mounted");
                 return;
             }
             for (int i = 0; i < tempFileArray.length; ++i) {
                 try {
                     tempEmuFileArray[i] = new EmuFile(tempFileArray[i].getCanonicalPath());
-                } catch (IOException e) {
+                }
+                catch (IOException e) {
                     Log.e("populateFileGrid:", "Couldn't get canonical path");
                     System.exit(0);
                 }
@@ -349,15 +341,17 @@ public class FileBrowserActivity extends Activity {
             boolean topLevel = true;
             try {
                 currentPath = f.getCanonicalPath();
-                if (currentPath.equals((new File(internalStorageRoot)).getCanonicalPath()))
+                if (currentPath.equals((new File(internalStorageRoot)).getCanonicalPath())) {
                     pathCanon = (new File(internalStorageRoot)).getCanonicalPath();
-                else if (externalStorageRoot != null && currentPath.equals((new File(externalStorageRoot)).getCanonicalPath()))
+                }
+                else if (externalStorageRoot != null && currentPath.equals((new File(externalStorageRoot)).getCanonicalPath())) {
                     pathCanon = (new File(externalStorageRoot)).getCanonicalPath();
-
+                }
                 if (!(currentPath.equals(pathCanon))) {
                     topLevel = false;
                 }
-            } catch (IOException e) {
+            }
+            catch (IOException e) {
                 Log.e("populateFileGrid:", "Couldn't get canonical path");
                 System.exit(0);
             }
@@ -403,8 +397,6 @@ public class FileBrowserActivity extends Activity {
                     }
                 }
             }
-
-
             Collections.sort(tempList);
             try {
                 if (actionType.equals("load_rom")) {
@@ -433,218 +425,22 @@ public class FileBrowserActivity extends Activity {
                 System.exit(0);
             }
         }
-
-        gridView = (EmuGridView)findViewById(R.id.filegrid);
-        gridView.setAdapter(new FileSystemAdapter(this, tempList.toArray()));
-        gridView.post(new Runnable() {
-            /**
-             * This allows the heights to be set after the layout phase has
-             * completed, thus preventing errors spewing in logcat.
-             */
-            @Override
-            public void run() {
-                // get number of columns
-                int itemsInRow = gridView.getNumColumns();
-
-                // get total number of views
-                int totalItems = gridView.getChildCount();
-
-                // calculate number of rows
-                int numOfRows = totalItems / itemsInRow;
-                if (totalItems % itemsInRow > 0)
-                    ++numOfRows;
-
-                // iterate through rows, changing heights as we go
-                for (int row = 0; row < numOfRows; ++row) {
-                    int highest = 0;
-                    ArrayList<View> rowViews = new ArrayList<View>();
-
-                    for (int item = row * itemsInRow; item < (row * itemsInRow) + itemsInRow; ++item) {
-
-                        if (gridView.getChildAt(item) != null) {
-                            rowViews.add(gridView.getChildAt(item));
-                            int currentHeight = gridView.getChildAt(item).getMeasuredHeight();
-                            highest = (currentHeight > highest) ? currentHeight : highest;
-                        }
-                    }
-
-                    for (View v : rowViews) {
-                        v.setLayoutParams(new EmuGridView.LayoutParams(v.getMeasuredWidth(), highest));
-                    }
-                }
-
-                gridView.invalidate();
-            }
-        });
+        if(recyclerView == null){
+            recyclerView = findViewById(R.id.file_browser_activity_recycler_view);
+        }
+        if(adapter == null){
+            adapter = new FileBrowserAdapter(this, tempList.toArray());
+            recyclerView.setAdapter(adapter);
+        }
+        else{
+            adapter.updateList(tempList.toArray());
+        }
         if (firstPopulation) {
-            gridView.requestFocus();
+            recyclerView.requestFocus();
             firstPopulation = false;
         }
     }
-    /**
-     * This class allows us to present a list of File objects as the
-     * backing store of a GridView.
-     */
-    protected class FileSystemAdapter extends BaseAdapter {
-        private Object[] filesAndFolders;
-        private Context context;
-        private LayoutInflater inflater;
-
-        public FileSystemAdapter(Context c, Object[] filesAndFolders) {
-            this.context = c;
-            this.filesAndFolders = filesAndFolders;
-            this.inflater = LayoutInflater.from(c);
-        }
-
-        @Override
-        public int getCount() {
-            return filesAndFolders.length;
-        }
-
-        @Override
-        public View getView(int position, View convertView, ViewGroup parent) {
-            View v = null;
-            if (position < 0 || position > getCount() - 1)
-                return v;
-
-            if (convertView != null) {
-                v = convertView;
-                int i = parent.indexOfChild(v);
-                if (((File) filesAndFolders[position]).getPath().equals(defaultFilePath)) {
-                    v = inflater.inflate(R.layout.bookmark_icon, parent, false);
-                } else if (((File) filesAndFolders[position]).isDirectory()) {
-                    v = inflater.inflate(R.layout.folder_icon, parent, false);
-                } else {
-                    v = inflater.inflate(R.layout.file_icon, parent, false);
-                }
-            } else {
-                if (((File) filesAndFolders[position]).getPath().equals(defaultFilePath)) {
-                    v = inflater.inflate(R.layout.bookmark_icon, parent, false);
-                } else if (((File) filesAndFolders[position]).isDirectory()) {
-                    v = inflater.inflate(R.layout.folder_icon, parent, false);
-                } else {
-                    v = inflater.inflate(R.layout.file_icon, parent, false);
-                }
-            }
-            ImageView img = (ImageView)((ViewGroup)v).getChildAt(0);
-            TextView path = (TextView)((ViewGroup) v).getChildAt(1);
-            if (((File)filesAndFolders[position]).getName().endsWith("..") ||
-                ((EmuFile)filesAndFolders[position]).isParent()) {
-                img.setImageResource(R.drawable.ic_arrow_back);
-                path.setText("..");
-            } else if (((File) filesAndFolders[position]).getPath().equals(defaultFilePath)
-                       && actionType.equals("load_rom")) {
-                path.setText("SET DEFAULT FOLDER");
-            } else if (((File) filesAndFolders[position]).getPath().equals(thisDirPath)
-                    && actionType.equals("export_states")) {
-                path.setText("Export Here");
-            }
-            else {
-                String name = ((File)filesAndFolders[position]).getName();
-                if (name.length() > 40)
-                    name = name.substring(0, 40 - 3) + "...";
-                path.setText(name);
-            }
-
-            return v;
-        }
-
-        @Override
-        public long getItemId(int position) {
-            return position;
-        }
-
-        @Override
-        public Object getItem(int position) {
-            return filesAndFolders[position];
-        }
-
-    }
-    /**
-     * This class allows us to listen for clicks on items in the
-     * GridView.
-     */
-    private class PathClickListener implements AdapterView.OnItemClickListener {
-        @Override
-        public void onItemClick(AdapterView av, View v, int position, long id) {
-            File file = (File)av.getItemAtPosition(position);
-            String filePath = file.getPath().toLowerCase();
-            if (actionType.equals("load_rom")) {
-                if (file.isDirectory() || filePath.endsWith(".zip")) {
-                    populateFileGrid(file.getAbsolutePath());
-                } else if (file.getAbsolutePath().equals(defaultFilePath)) {
-                    setDefaultPath();
-                } else {
-                    if (!romClicked) {
-                        // prevent double clicks which mess up SDL
-                        romClicked = true;
-
-                        // cast File to EmuFile and load ROM data from it
-                        EmuFile emuFile = (EmuFile) file;
-                        RomData romData = new RomData(emuFile);
-
-                        // check ROM is validly initialised
-                        if (!romData.isReady()) {
-                            Toast error = Toast.makeText(FileBrowserActivity.this, "Can't open ROM file, error encountered", Toast.LENGTH_SHORT);
-                            error.show();
-                            return;
-                        }
-                        FileBrowserActivity.transferData = romData;
-
-                        if (OptionStore.game_genie) {
-                            // get CRC32 checksum
-                            CRC32 crcGen = new CRC32();
-                            crcGen.update(romData.getRomData());
-                            FileBrowserActivity.transferChecksum = Long.toHexString(crcGen.getValue());
-                            Intent codesIntent = new Intent(FileBrowserActivity.this, CodesActivity.class);
-                            startActivity(codesIntent);
-                        } else {
-                            Intent sdlIntent = new Intent(FileBrowserActivity.this, SDLActivity.class);
-                            startActivity(sdlIntent);
-                        }
-
-                        finish();
-                    }
-                }
-            }
-            else if (actionType.equals("import_states")) {
-                if (file.isDirectory()) {
-                    populateFileGrid(file.getAbsolutePath());
-                } else {
-                    // create dialogue
-                    importPath = file.getAbsolutePath();
-                    AlertDialog importMenu = new AlertDialog.Builder(FileBrowserActivity.this).create();
-                    importMenu.setTitle("Import Prompt");
-                    importMenu.setMessage("Are you sure you want to import from " +
-                            file.getName() + "?");
-                    FileBrowserActivity.ImportListener il = new FileBrowserActivity.ImportListener();
-                    importMenu.setButton(DialogInterface.BUTTON_POSITIVE, "YES", il);
-                    importMenu.setButton(DialogInterface.BUTTON_NEGATIVE, "NO", il);
-                    importMenu.show();
-                }
-            }
-            else if (actionType.equals("export_states")) {
-                if (file.isDirectory()) {
-                    populateFileGrid(file.getAbsolutePath());
-                } else {
-                    // check for permissions
-                    if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.M) {
-                        if (ContextCompat.checkSelfPermission(FileBrowserActivity.this, Manifest.permission.WRITE_EXTERNAL_STORAGE)
-                                != PackageManager.PERMISSION_GRANTED) { // not granted
-                            ActivityCompat.requestPermissions(FileBrowserActivity.this,
-                                    new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},
-                                    FILEBROWSER_WRITE_STORAGE_REQUEST);
-                        } else {
-                            exportMethod();
-                        }
-                    } else {
-                        exportMethod();
-                    }
-                }
-            }
-        }
-    }
-    private void exportMethod() {
+    public void exportMethod() {
         // create dialogue
         AlertDialog exportMenu = new AlertDialog.Builder(FileBrowserActivity.this).create();
         exportMenu.setTitle("Export Prompt");
@@ -669,15 +465,16 @@ public class FileBrowserActivity extends Activity {
                 ControllerTextView other = (ControllerTextView)f.findViewById(R.id.external_view);
                 other.unHighlight();
                 t.highlight();
-            } else if (buttonText.equals("EXTERNAL")) {
+            }
+            else if (buttonText.equals("EXTERNAL")) {
                 if (externalStorageRoot != null) {
                     f.populateFileGrid(externalStorageRoot);
                     ControllerTextView other = (ControllerTextView)f.findViewById(R.id.internal_view);
                     other.unHighlight();
                     t.highlight();
-                } else {
-                    Toast notMounted = Toast.makeText(f, "External SD card not inserted/mounted", Toast.LENGTH_SHORT);
-                    notMounted.show();
+                }
+                else {
+                    showMessage("External SD card not inserted/mounted");
                 }
             }
         }
@@ -699,33 +496,40 @@ public class FileBrowserActivity extends Activity {
                 if (externalStorageRoot != null) {
                     selectionObj.moveUp();
                     ControllerMapped cm = selectionObj.getSelected();
-                    if (cm != null)
-                        sc.onClick((ControllerTextView)cm);
-                } else {
-                    Toast notMounted = Toast.makeText(this, "External SD card not inserted/mounted", Toast.LENGTH_SHORT);
-                    notMounted.show();
+                    if (cm != null) {
+                        sc.onClick((ControllerTextView) cm);
+                    }
+                }
+                else {
+                    showMessage("External SD card not inserted/mounted");
                 }
                 returnVal = true;
-            } else if (event.getKeyCode() == KeyEvent.KEYCODE_BUTTON_R1) {
+            }
+            else if (event.getKeyCode() == KeyEvent.KEYCODE_BUTTON_R1) {
                 if (externalStorageRoot != null) {
                     selectionObj.moveDown();
                     ControllerMapped cm = selectionObj.getSelected();
-                    if (cm != null)
-                        sc.onClick((ControllerTextView)cm);
-                } else {
-                    Toast notMounted = Toast.makeText(this, "External SD card not inserted/mounted", Toast.LENGTH_SHORT);
-                    notMounted.show();
+                    if (cm != null) {
+                        sc.onClick((ControllerTextView) cm);
+                    }
+                }
+                else {
+                    showMessage("External SD card not inserted/mounted");
                 }
                 returnVal = true;
-            } else if (event.getKeyCode() == KeyEvent.KEYCODE_BUTTON_B) {
+            }
+            else if (event.getKeyCode() == KeyEvent.KEYCODE_BUTTON_B) {
                 returnVal = true;
                 finish();
-            } else if (event.getKeyCode() == KeyEvent.KEYCODE_BUTTON_A) {
-                gridView = (EmuGridView)findViewById(R.id.filegrid);
+            }
+            else if (event.getKeyCode() == KeyEvent.KEYCODE_BUTTON_A) {
+                //Necessário testes para buscar uma solução nesse caso específico
+
+                /*gridView = (EmuGridView)findViewById(R.id.filegrid);
                 int position = gridView.getSelectedItemPosition();
                 if (position != AdapterView.INVALID_POSITION) {
                     pc.onItemClick(gridView, null, position, 0L);
-                }
+                }*/
                 returnVal = true;
             }
         }
@@ -758,20 +562,23 @@ public class FileBrowserActivity extends Activity {
                 }
                 settings.append("default_path=" + this.currentPath + "\n");
                 OptionStore.default_path = this.currentPath;
-            } catch (FileNotFoundException e) {
+            }
+            catch (FileNotFoundException e) {
                 Log.v("FileBrowserActivity", "Settings file doesn't exist yet: " + e);
-            } catch (IOException e) {
+            }
+            catch (IOException e) {
                 Log.e("FileBrowserActivity", "Problem reading settings file: " + e);
-            } finally {
+            }
+            finally {
                 // Close settings file
                 try {
                     if (settingsReader != null)
                         settingsReader.close();
-                } catch (IOException e) {
+                }
+                catch (IOException e) {
                     Log.e("FileBrowserActivity", "Couldn't close settings file: " + e);
                 }
             }
-
             // set length of file to zero
             RandomAccessFile r = null;
             try {
@@ -790,7 +597,6 @@ public class FileBrowserActivity extends Activity {
                 }
             }
         }
-
         // write settings to file
         BufferedWriter settingsWriter = null;
         try {
@@ -811,14 +617,11 @@ public class FileBrowserActivity extends Activity {
                 errors = true;
             }
         }
-
-        Toast status = null;
         if (errors) {
-            status = Toast.makeText(FileBrowserActivity.this, "Failed to set default path", Toast.LENGTH_SHORT);
-            status.show();
-        } else {
-            status = Toast.makeText(FileBrowserActivity.this, "Successfully set default path", Toast.LENGTH_SHORT);
-            status.show();
+            showMessage("Failed to set default path");
+        }
+        else {
+            showMessage("Successfully set default path");
         }
     }
     /**
@@ -830,39 +633,10 @@ public class FileBrowserActivity extends Activity {
         messageToast.show();
     }
     /**
-     * This is the listener which handles importing of states.
-     */
-    private class ImportListener implements DialogInterface.OnClickListener {
-        @Override
-        public void onClick(DialogInterface dialog, int which) {
-            switch (which) {
-                case DialogInterface.BUTTON_POSITIVE:
-                    // import files with StateIO class
-                    StateIO manager = new StateIO();
-                    boolean result = manager.importFromZip(getFilesDir().getAbsolutePath(), importPath);
-
-                    // check success/failure
-                    if (result) {
-                        Toast success = Toast.makeText(FileBrowserActivity.this, "Imported states successfully", Toast.LENGTH_SHORT);
-                        success.show();
-                        finish();
-                    } else {
-                        Toast failure = Toast.makeText(FileBrowserActivity.this, "Couldn't find states in this file", Toast.LENGTH_SHORT);
-                        failure.show();
-                    }
-                    break;
-                case DialogInterface.BUTTON_NEGATIVE:
-                    FileBrowserActivity.this.showMessage("Import was cancelled");
-                    break;
-            }
-        }
-    }
-    /**
      * This is the listener which handles exporting of states.
      */
     private class ExportListener implements DialogInterface.OnClickListener {
-        @Override
-        public void onClick(DialogInterface dialog, int which) {
+        @Override public void onClick(DialogInterface dialog, int which) {
             switch (which) {
                 case DialogInterface.BUTTON_POSITIVE:
                     // import files with StateIO class
@@ -888,12 +662,11 @@ public class FileBrowserActivity extends Activity {
 
                     // check success/failure
                     if (result) {
-                        Toast success = Toast.makeText(FileBrowserActivity.this, "Exported states successfully", Toast.LENGTH_SHORT);
-                        success.show();
+                        FileBrowserActivity.this.showMessage("Exported states successfully");
                         finish();
-                    } else {
-                        Toast failure = Toast.makeText(FileBrowserActivity.this, "Failed to export states here", Toast.LENGTH_SHORT);
-                        failure.show();
+                    }
+                    else {
+                        FileBrowserActivity.this.showMessage("Failed to export states here");
                     }
                     break;
                 case DialogInterface.BUTTON_NEGATIVE:
